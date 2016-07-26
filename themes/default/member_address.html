@@ -1,0 +1,225 @@
+{{ include file='include/head.inc.html' }}
+<style type="text/css" media="screen">
+        table.addresstbl {
+            border: 1px solid #999;
+            width: 95%;
+            margin-left: 20px;
+            }
+            table.addresstbl tr {
+                border: 1px solid #999;
+                border-width: 1px 0px;
+                }
+                table.addresstbl td,
+                table.addresstbl th {
+                    padding: 8px 5px;
+                    }
+                table.addresstbl th {
+                    background: #eee;
+                    }
+        
+            a.ahover:link,
+            a.ahover:visited,
+            a.ahover:active {
+                color: #333;
+                text-decoration: normal;
+                }
+            a.ahover:hover {
+                color: #EB2E6F;
+                }
+</style>
+</head>
+<body>
+    <div class="inclub">
+        <!--/*head*/-->{{ include file='include/top.inc.html' }}<!--/*end head*/-->
+		<!--/*menu*/--><div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+        </div>
+        <!--/*end menu*/--><!--/*gaincar个人中心*/-->
+        <div class="main-member clearfix">
+            {{ include file='member_nav.inc.html' }}
+            <div class="main-member-right">
+                <h3>收货地址</h3>
+                <h4 style="padding: 5px 0 5px 35px; color: #EB2E6F; ">新增收货地址</h4>
+                <form id="addrForm" class="main-personmsg" action="{{ url controller='Member' action='AddAdress' }}" method="post">
+                    <div class="line">
+                        <label>
+                            <span><strong>*</strong>收货人姓名：</span>
+                            <input id="name" class="text" name="username" value="{{$address.username}}" type="text" tabindex="1" />
+                        </label>
+                    </div>
+                    <div class="line">
+                        <span><strong>*</strong>选择地区：</span>
+                        {{ webcontrol type='Area' label='no' prov_id=$address.address.province.id city_id=$address.address.city.id}}
+                        <select onchange="selectArea(this.value, 'division', null)" id="city" name="city" tabindex="6">
+                            <option value="0">-市区-</option>
+                        </select>
+                        <select onchange="fixForm();" id="division" name="division" tabindex="7">
+                            <option value="0">-县区-</option>
+                        </select>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span><strong>*</strong>收货地址： </span>
+                            <textarea id="date" name="address[address]" tabindex="2" style="width: 400px; height: 30px; font-size: 12px; padding: 5px;">{{$address.address.address}}</textarea>
+                            <!--<div class="warning"><p>如:2010-01-01</p></div>-->
+                        </label>
+                    </div>
+                    <div class="clear">
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span><strong>*</strong>联系电话：</span>
+                            <input id="phone" class="text" name="phone" type="text" value="{{$address.phone}}" tabindex="4" />
+                        </label>
+                        <label>
+                            <span style="margin-left: 20px;">Email：</span>
+                            <input class="text" id="email" name="email" value="{{$address.email}}" type="text" tabindex="3" />
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span><strong>*</strong>邮政编码：</span>
+                            <input id="post" class="text" name="post" value="{{$address.post}}" type="text" tabindex="5" />
+                        </label>
+                        <label>
+                            <span style="margin-left: 20px;">标志性建筑：</span>
+                            <input class="text" id="building" value="{{$address.building}}" name="building" type="text" tabindex="7" />
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span>最佳配送时间：</span>
+                            <select id="besttime" name="besttime" tabindex="10">
+                                        <option {{ if $address.besttime eq '任何时间'}}selected="selected"{{/if}} value="任何时间">任何时间</option>
+                                        <option  {{ if $address.besttime eq '工作时间'}}selected="selected"{{/if}} value="工作时间">工作时间-周一至周五</option>
+                                        <option  {{ if $address.besttime eq '周末'}}selected="selected"{{/if}} value="周末">周末-星期六至星期天</option>                      
+                                    </select>
+                        </label>
+                        <label>
+                            <span style="margin-left: 20px;">设为默认地址：</span>
+                            <input id="default" name="default" type="checkbox" tabindex="6" style="margin-top:10px" value='1' {{if $address.default}}checked="checked"{{/if}} />
+                        </label>
+                    </div>
+                    <div class="clear">
+                        <!--Clear Float-->
+                    </div>
+                    <a id="addNewAddr" class="button" style="margin-left:140px; cursor:pointer; display:inline-block;" href="javascript:void(0);">{{if $address.add_id}}保存货获地址{{else}}新增收货地址{{/if}}</a>
+                    <small class="ok">
+                        已保存
+                    </small>
+                    <input type="hidden" name="col_key" value="{{$col_key}}" /><input type="hidden" name="lang" value="{{$lang}}" /><input type="hidden" name="member_id" value="{{$member_id}}"><input type="hidden" name="add_id" value="{{$address.add_id}}"><input type="hidden" name="province[id]" value="" /><input type="hidden" name="province[name]" value="" /><input type="hidden" name="city[id]" value="" /><input type="hidden" name="city[name]" value="" /><input type="hidden" name="division[id]" value="" /><input type="hidden" name="division[name]" value="" />
+                </form>
+                <div class="clear">
+                    <!--Clear Float-->
+                </div>
+                <br/>
+                <h4 style="padding: 5px 0 5px 35px; color: #EB2E6F; ">已有的收货地址</h4>
+                <br/>
+                <table border="0" class="addresstbl">
+                    <tr>
+                        <th width="10%">收货人</th>
+                        <th width="43%">收货地址</th>
+                        <th width="7%">邮编</th>
+                        <th width="15%">电话/手机</th>
+                        <th width="9%">默认地址</th>
+                        <th>操作</th>
+                    </tr>
+                    {{ foreach from=$addresses item='add' }}
+                    <tr>
+                        <td class="tc">{{$add.username}}</td>
+                        <td>{{ $add.address.province.name }} {{$add.address.city.name}} {{$add.address.division.name}} {{$add.address.address}}</td>
+                        <td class="tc">{{$add.post}}</td>
+                        <td class="tc">{{$add.tel}}{{if $add.tel and $add.phone}} 
+                            <br/>
+                            {{/if}}{{$add.phone}}
+                        </td>
+                        <td class="tc">{{if $add.default}}<img src="/themes/default/pic/ok.png">{{/if}}</td><td class="tc"><a class="ahover" href="{{ url controller='Member' action='Address' add_id=$add.add_id back='yes' }}">修改</a> | <a class="ahover" id="delAddr" rel="{{url controller='Member' action='DelAddress' add_id=$add.add_id}}" href="javascript:void(0);">删除</a></td>
+                    </tr>
+                    {{ /foreach }}
+                </table>
+            </div>
+        </div>
+        <!--/*end gaincar个人中心*/-->
+        <!--/*help帮助中心*/-->
+        <div class="clear">
+        </div>
+        {{ include file='include/bottom.inc.html' }}
+    </div>
+    <script type="text/javascript" charset="utf-8">
+        jQuery(function($){
+        
+            $("#addNewAddr").click(function(){
+                var addrForm = $("#addrForm");
+                var url = addrForm.attr('action');
+                $.post(url, addrForm.serialize(), function(data){
+                    if (data.success) {
+                        $("small.ok").fadeIn(500);
+                        $("small.ok").fadeOut(1000, function(){
+                            window.location.href = data.url;
+                        });
+                    }
+                }, 'json');
+            });
+            
+            $("a#delAddr").each(function(){
+                $(this).click(function(){
+                    link = $(this).attr('rel');
+                    $.get(link, function(data){
+                        if (data.success) {
+                            window.location.reload();
+                        }
+                    }, 'json');
+                });
+            });
+            
+            var prov_id = '{{$address.address.province.id}}';
+            var city_id = '{{$address.address.city.id}}';
+            if (prov_id && city_id) {
+                selectArea(prov_id, 'city', city_id);
+            }
+            else {
+                selectArea(28, 'city', null);
+            }
+        });
+        /* 选择 */
+        var selectArea = function(provId, displayId, current){
+            if (displayId == 'division') {
+                current = '{{$address.address.division.id}}';
+            }
+            $.post("{{ url controller='Member' action='AjaxSelectArea' }}", {
+                prov_id: provId,
+                disp: displayId,
+                current_id: current
+            }, function(data){
+            
+                if (data) {
+                
+                    $("#" + displayId).html(data);
+                    
+                }
+                else {
+                
+                    $("#" + displayId).html("<option value='0'>- 无 -</a>");
+                }
+                
+                if (displayId == 'city') {
+                
+                    selectArea($("#city").val(), 'division', current);
+                }
+                
+                fixForm();
+            });
+        }
+        
+        var fixForm = function(){
+            $("input[name='province[id]']").val($("#province").val());
+            $("input[name='province[name]']").val($("#province option:selected").text());
+            $("input[name='city[id]']").val($("#city").val());
+            $("input[name='city[name]']").val($("#city option:selected").text());
+            $("input[name='division[id]']").val($("#division").val());
+            $("input[name='division[name]']").val($("#division option:selected").text());
+        }
+    </script>
+</body>
+</html>

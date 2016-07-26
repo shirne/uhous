@@ -1,0 +1,150 @@
+<table style="background-color: #ffffff;margin: 0 auto;" align="center" border="0" cellpadding="0" cellspacing="0" width="680">
+    <tbody><tr>
+    <td style="padding: 8px 31px 0px" colspan="3">
+    <table cellpadding="0" cellspacing="0" border="0" width="614" style="background-color: #ffffff;">
+        <tbody><tr>
+        <td colspan="2" style="font-family: Georgia,Times,serif;font-style:italic;font-weight:normal;vertical-align:middle;" align="right">
+        <span style="display: block;color: #666666;font-size: 11px;padding-bottom: 3px;">无法查看此邮件的内容请<span style="color: #666666;"> <a href="{{$server}}{{url controller='products'}}" alt="click here to view this message" target="_blank" style="color: #666666;outline: none;text-decoration: none;">点击此处</a></span></span>
+        <span style="display: block;color: #999999;font-size: 11px;padding-bottom: 3px;">为了确保您能正确收到此邮件，请添加<span style="color:#666666;"><a target="_blank" href="mailto:{{$serveremail}}" style="color: #666666;outline: none;text-decoration: none"> {{$serveremail}}</a></span>到您的地址薄.</span>
+        </td>
+        </tr>
+        
+        </tbody>
+    </table>
+    </td>
+    </tr>
+    <tr><td height="10" colspan="2"></td></tr>
+    <tr>
+    <td colspan="2" style="background-color:#ffffff;padding: 0 31px;">
+        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tbody><tr>
+        <td><img style="display: inline-block;border: none;outline: none" alt="Wshop Icon" src="{{$server}}/themes/default/images/logo.jpg"></td>
+        
+        <td align="right" style="padding-right:10px; font-size:14px;color:#666666;font-style:italic;font-family:Georgia, Times, serif;">最新产品</span></td>
+        </tr>
+        </tbody>
+        </table>
+    </td>
+    </tr>
+    <tr><td height="10" colspan="2"></td></tr>
+    <tr>
+    <td colspan="2" style="padding: 0 31px;">
+    <table border="0" cellspacing="0" cellpadding="0" width="100%" style="background-color:#ffffff">
+    <tbody>
+        <!-- 产品开始 -->
+        <tr>
+        {{section name="prod" loop=$product}}
+            <td style="vertical-align:top;{{if ($smarty.section.prod.index % 2) eq 0}}padding-right:15px;{{/if}}" width="300">
+            <table border="0" cellspacing="0" cellpadding="0" width="300" height="300" background="{{$server}}/uploads/{{$product[prod].pic}}" style="background-image:url('{{$server}}/uploads/{{$product[prod].pic}}');background-repeat: no-repeat;background-color: #cacaca;">
+            <tbody><tr>
+            <td>
+            <table background="{{$server}}/themes/default/images/transparent-strip1_1x1.png" style="background-image:url({{$server}}/themes/default/images/transparent-strip1_1x1.png);background-repeat: repeat;background-color: transparent;" border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr>
+            <td style="vertical-align:middle;text-align: left" width="260" height="60">
+            <span style="font-family:Arial, Helvetica, sans-serif;font-size:13px;padding: 2px 5px 0 10px;font-weight:bold;display:block;color:#ffffff;">{{$product[prod].name}}</span>
+            <span style="font-family:Arial, Helvetica, sans-serif;font-size:12px;padding: 2px 5px 0 10px;line-height:16px;display:block;color:#ffffff;">￥{{$product[prod].price}}</span>
+            </td>
+            </tr>
+            </tbody></table>
+            </td>
+            <td>
+            <table background="{{$server}}/themes/default/images/transparent-strip1_1x1.png" style="background-image:url({{$server}}/themes/default/images/transparent-strip1_1x1.png);background-repeat: repeat;background-color: transparent;" border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr>
+            <td style="vertical-align:top;text-align:right;" width="50" height="60">
+            <span style="display:block;padding: 18px 16px 0 0"><a href="{{$server}}{{url controller='products' action='view' id=$product[prod].pro_id}}" target="_blank" alt="查看产品:{{$product[prod].name}}" title="查看产品:{{$product[prod].name}}" style="display:inline-block;outline:none;"><img src="{{$server}}/themes/default/images/icop.png" alt=" &gt; " height="23" width="23" style="border:0;"></a></span>
+            </td>
+            </tr>
+            </tbody></table>
+            </td>
+            </tr>
+            <tr>
+            <td colspan="2" height="240">
+            <a href="{{$server}}{{url controller='products' action='view' id=$product[prod].pro_id}}" target="_blank" alt="查看产品:{{$product[prod].name}}" title="查看产品:{{$product[prod].name}}" style="width:100%;height: 240px;display:block;outline:none;"></a>
+            </td>
+            </tr>
+            </tbody></table>
+        </td>
+        {{if ($smarty.section.prod.index % 2) eq 1}}
+        </tr>
+        <tr><td style="padding:0 33px;" colspan="2" height="15"></td></tr>
+        <tr>
+        {{/if}}
+        {{/section}}
+        
+    </tr>
+    <!-- 产品结束 -->
+    <tr><td style="padding:0 33px;" colspan="2" height="15"></td></tr>
+    </tbody></table>
+    </td>
+    </tr>
+    
+    <tr>
+    <td height="40" style="padding: 0 31px">
+        <table border="0" cellspacing="0" cellpadding="0" width="617" height="40" style="background-color: #ffffff;">
+        <tbody><tr>
+        <td align="left" style="font-size:10px;padding-left:2px;color: #000000;">
+        <a href="{{$server}}{{url controller='information' action='about'}}" target="_blank" style="font-size: 10px;color: #000000!important;text-decoration: none;display: inline-block;padding-right: 7px;outline: none;">关于</a>
+        <a href="{{$server}}{{url controller='information' action='guide'}}" target="_blank" style="font-size: 10px;color: #000000!important;text-decoration: none;display: inline-block;padding-right: 7px;outline: none;">指南</a>
+        <a href="{{$server}}{{url controller='information' action='delivery'}}" target="_blank" style="font-size: 10px;color: #000000!important;text-decoration: none;display: inline-block;padding-right: 7px;outline: none;">配送</a>
+        <a href="{{$server}}{{url controller='information' action='service'}}" target="_blank" style="font-size: 10px;color: #000000!important;text-decoration: none;display: inline-block;padding-right: 7px;outline: none;">售后</a>
+        <a href="{{$server}}{{url controller='information' action='provision'}}" target="_blank" style="font-size: 10px;color: #000000!important;text-decoration: none;display: inline-block;padding-right: 7px;outline: none;">条款</a>
+        <a href="{{$server}}{{url controller='information' action='payment'}}" target="_blank" style="font-size: 10px;color: #000000!important;text-decoration: none;display: inline-block;padding-right: 7px;outline: none;">支付</a>
+        </td>
+        <td align="right" style="padding-right: 2px;">
+        
+        </td>
+        </tr>
+        </tbody>
+        </table>
+    </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<table align="center" style="background-color:#FFFFFF;text-align:left;padding-top:10px;margin:0 auto" width="680" border="0" cellspacing="0" cellpadding="0">
+    <tbody><tr>
+    <td>
+    <table align="center" style="background-color:#FFFFFF;text-align:left;" border="0" cellspacing="0" cellpadding="0">
+        <tbody><tr>
+        <td>
+            <table align="left" border="0" cellspacing="0" cellpadding="0" width="600" style="background-color:#fff;border-top: 1px solid #d6d6d6;">
+            <tbody><tr>
+            <td style="padding: 10px 0">
+            <span style="font-style: italic;color:#666;font-size: 12px;font-family: Georgia;line-height:16px;padding-bottom: 3px">您收到这封邮件是因为您使用: <a style="color:#dd0017;border: none;outline: none;" href="{{$email}}" alt="{{$email}}" target="_blank">{{$email}}</a>在<a style="color:#dd0017;border: none;outline: none;" href="{{$server}}" alt="uhous.com" target="_blank">uhous.com</a>注册了账号. 我们尊重您的隐私. 查看 <a style="color:#000;border: none;outline: none;" href="{{$server}}{{url controller='information' action='provision'}}#serect" alt="隐私保护" target="_blank">隐私保护</a>. 如果您不想接收此邮件，请点击 <a style="color:#000;border: none;outline: none;" href="{{$server}}{{url controller='member' action='unsubscribe'}}" alt="退订邮件" target="_blank">退订</a>.</span>
+            </td>
+            </tr>
+            </tbody>
+            </table>
+        </td>
+        </tr>
+        <tr>
+        <td>
+            <table border="0" cellspacing="0" cellpadding="0" width="100%" style="background-color:#fff;">
+            <tbody><tr>
+            
+            <td style="font-family:Arial, Helvetica, sans-serif;padding:5px 0px 0 0;vertical-align: top;" align="left">
+                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                    <tbody><tr>
+                    <td><span style="display:block;color:#999999;font-size: 11px"><a href="{{$server}}" style="text-decoration:none;color:#999999;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;outline: none;border: none" target="_blank"><span style="text-decoration:none;color:#999999;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">中山市车水马龙电子商务有限公司</span></a></span></td>
+                    </tr>
+                    <tr>
+                    <td><span style="display:block;color:#999999;font-size: 11px;"><a href="#" style="text-decoration:none;color:#999999;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;" target="_blank"><span style="text-decoration:none;color:#999999;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">copy right &copy;2012</span></a></span></td>
+                    </tr>
+                    <tr>
+                    <td><span style="display:block;color:#999999;font-size: 11px;"><a href="#" style="text-decoration:none;color:#999999;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;" target="_blank"><span style="text-decoration:none;color:#999999;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">中国&dot;中山</span></a></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+            </tr>
+            </tbody>
+            </table>
+        </td>
+        </tr>
+        </tbody>
+    </table>
+    </td>
+    </tr>
+    </tbody>
+</table>

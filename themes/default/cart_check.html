@@ -1,0 +1,418 @@
+{{ include file='include/head.inc.html' }}
+<link rel="stylesheet" href="/themes/default/css/thickbox.css" type="text/css" media="screen" />
+<script type="text/javascript" charset="utf-8" src="/themes/default/js/thickbox.js"></script>
+<style type="text/css" media="screen">
+div.bill { font-size: 16px; width: 80%; margin: 50px auto 30px;}
+table.list {
+    width: 100%;
+    margin: 10px auto 25px;
+    }
+    table.list tr {
+        height: 30px;
+        }
+        table.list tr th { border: 1px solid #CCC; background: #EFEFEF; font-size: 13px; }
+        table.list tr td { 
+            border: 1px dotted #CCC;
+            padding-right: 10px;
+            padding-left: 5px;
+            font-size: 12px;
+        }
+        table.list tr td.label {
+            width: 20%;
+            }
+span.label { font-weight: bold; }
+
+a.link:link, 
+a.link:active, 
+a.link:link {
+    font-size: 12px;
+    color: #EB2E6F;
+    }
+
+.zi { color: #EB2E6F; }
+
+.invoice{ font-size:12px; }
+.invoice span.warn{ border:1px solid #F99; background:#Fee; color:#900; margin-left:10px;}
+.sumbit{ float:right;}
+    
+</style>
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+		<div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+        {{ include file='cart_nav.html'}}
+        <div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+        <!--/*mycar购物车*/-->
+
+        <div class="main-mycar-dialogeare">
+
+            <div class="bill">
+
+                <span class="label">商品列表</span>&nbsp;&nbsp;<a class="link" href="{{ url controller='Member' action='orderlist' }}">修改</a>
+                <table border="0" class="list">
+                    <tr>
+                        <th>商品名称</th>
+                        <th>商品属性</th>
+                        <th>市场价</th>
+                        <th>本店价</th>
+                        <th>数量</th>
+                    </tr>
+                    {{ foreach from=$products.rows item='pro' }}
+                    <tr>
+                        <td><a class="link" href="{{ url controller='Products' action='view' id=$pro.pro_id }}" title="{{$pro.name}}">{{$pro.name}}</a></td>
+                        <td class="">
+                            {{ if $pro.color }}颜色：{{$pro.color}}{{ /if }}
+                            {{ if $pro.size }}<br />尺寸：{{$pro.size}}{{ /if }}
+                        </td>
+                        <td class="tr">￥{{$pro.retail}}</td>
+                        <td class="tr">￥{{$pro.price}}</td>
+                        <td class="tr" id="">{{$pro.num}}</td>
+                    </tr>
+                    {{ /foreach }}
+                    <tr>
+                        <td colspan="5" align="right" style="font-size:14px;line-height:2em">购物金额小计 ￥<span class="zi">{{ $products.total }}</span><br />比市场价 ￥<span class="zi">{{$products.retail}}</span>元 节省了 ￥<span style="color: blue;">{{$products.sub}}</span>元<br />
+                        {{if $coupon}}您使用了一张优惠券:<font color="red">{{$coupon.coupon.name}}</font>,优惠金额:￥<font color="red">{{$coupon.coupon.value}}</font>,最终付款金额:￥<font color="red">{{$products.suball}}</font>{{/if}}
+                        </td>
+                    </tr>
+                </table>
+
+                <div  id="address">
+                    <span class="label">收货地址</span>&nbsp;&nbsp;<a class="link" href="#" onclick="updateaddress();return false;">修改</a>
+
+                    <table border="0" class="list">
+                        <tr>
+                            <td class="label">收货人姓名：</td>
+                            <td class="username">{{$address.username}}</td>
+                            <td class="label">邮政编码：</td>
+                            <td class="post">{{$address.post}}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">详细收货地址：</td>
+                            <td class="address" colspan="3">
+                                <span id="areas">
+                                {{$address.address.province.name}}
+                                {{$address.address.city.name}}
+                                {{$address.address.division.name}}
+                                </span>
+                                <span id="detailaddress">
+                                {{$address.address.address}}
+                                </span>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="label">电话：</td>
+                            <td class="tel">{{$address.tel}}</td>
+                            <td class="label">手机：</td>
+                            <td class="phone">{{$address.phone}}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">标志建筑：</td>
+                            <td class="building">{{$address.building}}</td>
+                            <td class="label">最佳送货时间：</td>
+                            <td class="besttime">{{$address.besttime}}</td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <form target="_blank" id="createForm" action="{{ url controller='Check' action='paynow' }}" method="post" accept-charset="utf-8">
+
+                    <div id="updateaddress" style="display:none">
+                        <span class="label">修改收货地址</span>&nbsp;&nbsp;<a class="link" href="#" onclick="$('#updateaddress').slideUp('fast');return false">收起</a>
+                        <table border="0" class="list">
+                            <tr>
+                                <td class="label">收货人姓名：</td>
+                                <td><label><input name="username" type="text" id="username" value="{{$address.username}}" /></label>
+                                </td>
+
+                                <td class="label">邮政编码：</td>
+                                <td><input name="post" type="text" id="post" value="{{$address.post}}" /></td>
+                            </tr>
+                            <tr>
+                                <td class="label">详细收货地址：</td>
+                                <td colspan="3">
+                                    {{ webcontrol type='Area'  prov_id=$address.address.province.id city_id=$address.address.city.id}}
+                                    <label>
+                                        <select onchange="selectArea(this.value, 'division',null)" id="city" name="city" tabindex="6">
+                                            <option value="0">-市区-</option>
+                                        </select>
+                                    </label>
+                                    <label>
+                                        <select id="division" name="divisvion" tabindex="7">
+                                            <option value="0">-县区-</option>
+                                        </select>
+                                    </label>
+                                    <label>
+                                    <input name="address" type="text" id="address" size="30" value="{{$address.address.address}}" />
+                                    </label>
+                                    <input type="hidden" name="province[id]" value="" />
+                                    <input type="hidden" name="province[name]" value="" />
+                                    <input type="hidden" name="city[id]" value="" />
+                                    <input type="hidden" name="city[name]" value="" />
+                                    <input type="hidden" name="division[id]" value="" />
+                                    <input type="hidden" name="division[name]" value="" />
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="label">电话：</td>
+                                <td><input name="tel" type="text" id="tel" value="{{$address.tel}}" /></td>
+                                <td class="label">手机：</td>
+                                <td><input name="phone" type="text" id="phone" value="{{$address.phone}}" /></td>
+                            </tr>
+                            <tr>
+                                <td class="label">标志建筑：</td>
+                                <td><input name="building" type="text" id="building" value="{{$address.building}}" /></td>
+                                <td class="label">最佳送货时间：</td>
+
+                                <td>
+                                    <select class="besttime" name="besttime">
+                                        <option {{ if $address.besttime eq '任何时间'}}selected="selected"{{/if}} value="任何时间">任何时间</option>
+                                        <option  {{ if $address.besttime eq '工作时间'}}selected="selected"{{/if}} value="工作时间">工作时间-周一至周五</option>
+                                        <option  {{ if $address.besttime eq '周末'}}selected="selected"{{/if}} value="周末">周末-星期六至星期天</option>                      
+                                    </select>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="sumbit" ><a id="updateAddr" class="button" href="javascript:void(0);">提 交</a></div>
+						<div class="clear"></div>
+                    </div>
+
+                   <span class="label">支付方式</span>
+                    <table border="0" class="list">
+                        <tr>
+                            <th></th>
+                            <th width="20%">名称</th>
+                            <th>描述</th>
+                            <th>费用</th>
+                        </tr>
+                        {{ assign var='count' value=1 }}
+                        {{ foreach from=$payment item='del' }}
+                        <tr>
+                            <td><input class="selectPay" type="radio" name="payment[select]" value="{{$count}}" /></td>
+                            <td><img src="/themes/default/images/pay{{$count++}}.gif" height="40" alt="{{$del.name}}" style="margin:5px" /></td>
+                            <td>{{$del.memo}}</td>
+                            <td class="tc">{{$del.cost}}</td>
+                        </tr>
+                        {{ /foreach }}
+                    </table>
+
+                    <span class="label">发票信息</span>
+                    <div class="invoice">          
+                        <label>
+                            <input  type="checkbox" onclick="getInvoice()" id="invoice" name="params[checked]" value='yes' />
+                            <span>我要开发票</span>
+                        </label>
+                        <div id="invoicemsg" style="display:none;">
+                            <label for="no">
+                                <span>发票类型：</span>
+                                <input type="radio" name="params[type]" checked="checked" value="普通发票" /> 普通发票
+                            </label><br />
+                            <label for="no">
+                                <span>发票抬头：</span>
+                                <input type="radio" name="params[header]" id="personheader" onclick="getheader()" checked="checked" value="个人" />
+                                <span> 个人</span>
+                                <input type="radio" name="params[header]" id="unitheader" onclick="getheader()" value="单位"  />
+                                <span>单位</span>
+                            </label><br />
+
+                            <div id="unitdiv" style="display:none;">
+                                <label>
+                                    <span>单位名称：</span>
+                                    <input type="text" style="width:200px;" name="params[unitname]" />
+                                    <span class="warn">*  温馨提示：请千万别填写和发票抬头无关的信息。  </span>
+                                </label>
+                            </div><br />
+
+                            <label for="no">
+                                发票内容：
+                                <input type="radio" name="params[content]" value="办公家具" />
+                                <span>办公家具</span>
+                                <input type="radio" name="params[content]" value="家具" />
+                                <span>家具</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="order_id" value="{{$order.order_id}}">
+                    
+
+                </form>
+            </div>
+
+            <div id="dialog" class="dialog" style="display: none;">        
+                <div class="tc" style="height: 50px; line-height: 50px;">
+                    付款成功？
+                </div>
+                <p class="tc">
+                <input type="button" name="yes" onclick="window.location.href='{{ url controller=Member action=OrderList}}'" value="是的，付款成功"/>
+                    <input type="button" name="no"onclick="window.location.href='{{ url controller=Information action=Guide }}'+'#question'" value="不，我遇到问题"/>
+                </p>
+            </div>
+
+            <input alt="#TB_inline?height=100&width=300&inlineId=dialog" class="thickbox hiden" type="button" value="Show" />  
+            <div class="fr main-mycar-btn"><a id="goNext" class="button" href="javascript:void(0);">转到下一步 &raquo;</a></div>
+
+        </div>
+
+        <div class="clear"></div>
+        <div style="margin-top:20px;"><img src="/themes/default/images/home_11.jpg" width="392" height="37" /></div>
+        <!--/*end mycar购物车*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+function updateaddress(){
+	$('#updateaddress').slideDown('fast');
+}
+jQuery(function($) {
+
+    // 登陆post请求
+    $("#loginBtn").click(function() {
+        var loginForm = $("#loginForm");
+        var url = "{{url controller='Member' action='Login'}}";
+        $.post(
+            url, 
+            loginForm.serialize(), 
+            function(data) 
+            {
+                if(!data.loginStatus) {
+                    $("#login_tips").show();
+                } else {
+
+                    if($("#username").val()&&$("#pwd").val()) {
+                        loginForm.submit();
+                    }
+                }
+            },
+            'json'    
+        );
+    });
+
+    $("a#updateAddr").click(function() {
+        var url = "{{url controller='Check' action='AddAddress'}}";
+        $.post(
+            url,
+            $("#createForm").serialize(),
+            function(data)
+            {
+                if(data.success) {
+                    $("td.username").text($("input#username").val());
+                    $("td.post").text($("input#post").val());
+                    $("td.phone").text($("input#phone").val());
+                    $("td.building").text($("input#building").val());
+                    $("td.tel").text($("input#tel").val());
+                    $("td.besttime").text($("select.besttime").val());
+                    $("#areas").text($("#province option:selected").text() + $("#city option:selected").text() + $("#division option:selected").text());
+                    $("#detailaddress").text($("input#address").val());
+
+                    $("#updateaddress").hide();
+                    $("#address").show();
+                    //window.location.reload();
+                }
+            },
+            'json'
+        );
+    });
+
+    $("#goNext").click(function() {
+        //if($("input#selectDel:checked").val()){
+
+            if(!$("td.username").text()) {
+                alert("收货人必须填写！");
+            } else if(!$("td.post").text()) {
+                alert("邮政编码必须填写！");
+            } else if(!$("td.phone").text()) {
+                alert("手机号码必须填写！");
+            } else if(!$("td.besttime").text()) {
+                alert("最佳送货时间必须填写！");
+            } else if(!$("#detailaddress").text()) {
+                alert("送货地址必须填写！");
+            } else {
+                if($("input.selectPay:checked").val()) {
+                    if(confirm("你确定要购买吗？")) {
+                        $("#createForm").submit();
+                        $("input.thickbox").trigger('click');
+                    }
+                } else {
+                    alert("必须选择一种支付方式！");
+                }
+            }
+        //} else {
+            //alert("必须选择一种运送方式！");
+        //}
+    });
+
+    var prov_id = '{{$address.address.province.id}}';
+    var city_id = '{{$address.address.city.id}}';
+    if(prov_id&&city_id) {
+        selectArea(prov_id, 'city', city_id);
+    } else {
+        selectArea(28, 'city', null);
+    }
+});
+
+/* 选择 */
+var selectArea = function(provId, displayId, current)
+{
+    if(displayId == 'division')
+    {
+        current = '{{$address.address.division.id}}';
+    }
+    $.post(
+        "{{ url controller='Check' action='AjaxSelectArea' }}",
+        {
+            prov_id : provId,
+            disp : displayId,
+            current_id : current
+        },
+        function(data) {
+
+            if(data){
+
+                $("#"+displayId).html(data);
+
+            } else {
+
+                $("#"+displayId).html("<option value='0'>- 无 -</a>");
+            }
+
+            if(displayId == 'city') {
+
+                selectArea($("#city").val(), 'division');
+            }
+
+            fixForm();
+        }
+    );
+}
+var fixForm = function()
+{
+    $("input[name='province[id]']").val($("#province").val());
+    $("input[name='province[name]']").val($("#province option:selected").text());
+    $("input[name='city[id]']").val($("#city").val());
+    $("input[name='city[name]']").val($("#city option:selected").text());
+    $("input[name='division[id]']").val($("#division").val());
+    $("input[name='division[name]']").val($("#division option:selected").text());
+}
+</script>
+</body>
+</html> 

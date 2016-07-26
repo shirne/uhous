@@ -1,0 +1,126 @@
+{{ include file='include/head.inc.html' }}
+<style type="text/css" media="screen">
+table.addresstbl {
+    border: 1px solid #999;
+    width: 95%;
+    margin-left: 20px;
+    margin-top: 20px;
+    }
+    table.addresstbl tr {
+        border: 1px solid #999;
+        border-width: 1px 0px;
+        }
+        table.addresstbl td,
+        table.addresstbl th {
+            padding: 8px 5px;
+            }
+        table.addresstbl th {
+            background: #eee;
+            }
+
+    a.ahover:link,
+    a.ahover:visited,
+    a.ahover:active {
+        text-decoration: underline;
+        color: #EB2E6F;
+        }
+    a.ahover:hover {
+        text-decoration: normal;
+        color: #333;
+        }
+</style>
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+        <div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+
+        <!--/*gaincar个人中心*/-->
+        <div class="main-member clearfix">
+            {{ include file='member_nav.inc.html' }}
+
+            <div class="main-member-right">
+                <h3>我的优惠</h3>
+
+                <table border="0" class="addresstbl">
+                    <tr>
+                        <th width="25%">优惠券序列号</th>
+                        <th width="20%">优惠券名称</th>
+                        <th width="10%">价值</th>
+                        <th width="">最小订单金额</th>
+                        <th width="15%">截至日期</th>
+                        <th width="10%">状态</th>
+                    </tr>
+                    {{ foreach from=$coupons item='cou' }}
+                    <tr>
+                        <td class="tc">{{$cou.sn}}</td>
+                        <td class="tc">{{$cou.coupon.name}}</td>
+                        <td class="tc">{{$cou.coupon.value}}￥</td>
+                        <td class="tc">{{$cou.coupon.minprice}}</td>
+                        <td class="tc">{{$cou.invaluetime|date_format:'%Y-%m-%d'}}</td>
+                        <td class="tc">{{if !$cou.status}}未使用{{else}}已使用{{/if}}</td>
+                    </tr>
+                    {{ /foreach }}
+                </table>
+
+                {{if $coupons}}
+                <div style="font-size: 14px;margin-top:25px; text-align: right;padding-right: 20px;"><a class="ahover" href="{{ url controller='Products' action='index' }}">&gt;&gt;马上使用</a></div>
+                {{else}}
+                <br /><br />
+                <div class="tc">您还没有优惠券~</div>
+                <br /><br />
+                {{/if}}
+                
+            </div>
+
+        </div>
+        <!--/*end gaincar个人中心*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+    
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+<script type="text/javascript" charset="utf-8"> 
+jQuery(function($) {
+
+    $("#addNewAddr").click(function() {
+        var addrForm = $("#addrForm");
+        var url = addrForm.attr('action');
+        $.post(url, addrForm.serialize(), function(data) {
+            if(data.success) {
+                $("small.ok").fadeIn(1000);
+                $("small.ok").fadeOut(2000, function() {
+                    
+                    window.location.reload();
+                });
+            } 
+        }, 'json');
+    });
+
+    $("a#delAddr").each(function() {
+        $(this).click(function() {
+            link = $(this).attr('rel');
+            $.get(link, function(data) {
+                if(data.success) {
+                    window.location.reload();
+                }
+            }, 'json');
+        });
+    });
+});
+</script>
+</body>
+</html> 

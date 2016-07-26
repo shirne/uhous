@@ -1,0 +1,158 @@
+{{ include file='include/head.inc.html' }}
+<style type="text/css" media="screen">
+div.order { 
+    width: 95%;
+    margin: 0 auto 15px;;
+    border: 1px solid #EEE;
+}
+div.order div.info {
+    padding: 10px;
+    border-bottom: 1px solid #EEE;
+    background: #EEE;
+}
+
+</style>
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+        <div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+
+        <!--/*gaincar个人中心*/-->
+        <div class="main-member clearfix">
+            
+            {{ include file='member_nav.inc.html' }}
+
+            <div class="main-member-right">
+                <h3>已购买商品</h3>
+                <div class="order">
+            {{ if $orders }}
+                {{ foreach from=$orders item='order' }}
+                {{ if $order.state neq 7 }}
+                    <div class="info">
+                        {{ if $order.state eq 0 }}
+                        <a onclick="if(!confirm('您确定要取消订单吗？')) return false;" href="{{url controller='Member' action='CancelOrder' order_id=$order.order_id}}" class="fr" style="color: #EB2E6F;">取消订单</a>
+                        {{ /if }}
+                        订单编号：{{$order.ordercode}}&nbsp;&nbsp;&nbsp;&nbsp;
+                        下单时间：{{$order.created|date_format:'%Y-%m-%d %H:%M:%S'}}
+                    </div>
+                    <table class="main-member-bought" width="" align="center" border="0" cellspacing="0" cellpadding="5" style="margin-top: 5px;">
+                        <tbody>
+                            <tr class="main-member-bought-title">
+                                <td width="398">货品名称</td>
+                                <td width="53" align="center">数量</td>
+                                <!--<td width="132" class="tc">状态</td>-->
+                                <td width="100" align="center">小计</td>
+                                <td width="108" align="right">操作</td>
+                            </tr>
+                            {{ if $order.prds }}
+                            {{ foreach from=$order.prds item='pro' }}
+                            <tr class="main-member-bought-main" onmousemove="this.style.backgroundColor='#edfdff'" onmouseout="this.style.backgroundColor='#fff'">
+                                <td class="main-member-bought-name">
+                                    <img src="/uploads/thumb_{{$pro.pic}}" alt="{{$pro.name}}" width="50" height="50" style="margin-right: 20px;" />
+                                    <p><b><a href="{{url controller='Products' action='view' cate_id=$pro.cate_id id=$pro.pro_id}}" target="_blank">{{$pro.name}}</a></b></p></td>
+                                <td class="tc">{{$pro.num}}</td>
+                                <td align="center">￥{{$pro.price}}元</td>
+                                <td align="right">
+                                    {{ if $order.state eq 0 }}
+                                    <a href="{{ url controller='Member' action='RemoveProFromOrder' pro_id=$pro.pro_id order_id=$order.order_id }}">移除商品</a> 
+                                    {{ elseif $order.state eq 3 }}
+                                        {{if $pro.commented eq 1}}
+                                        <a href="{{url controller='Products' action='view' id=$pro.pro_id}}" style="color:#999999">已评分</a> 
+                                        {{else}}
+                                    <a href="{{url controller='Products' action='AddComment' id=$pro.pro_id}}">评分</a> 
+                                        {{/if}}
+                                    {{ else }}
+                                    <a style="color:#999999">收货后可以评分</a> 
+                                    {{ /if }}
+                                </td>
+                            </tr>
+                            {{ /foreach }}
+                            {{ /if }}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <span class="fr">
+                                        订单状态：
+                                        {{ if $order.state eq 1 }}
+                                        <span class="icon-ok">已付款</span>
+                                        {{ elseif $order.state eq 2 }}
+                                        <span class="icon-attention">已发货</span>&nbsp;&nbsp;
+                                        <span style="color: red; text-decoration: underline;">物流号：{{$order.delivery_way.deliveryNo}}</span>
+                                        {{ elseif $order.state eq 3 }}
+                                        <span class="icon-ok">已收货</span>
+                                        {{ elseif $order.state eq 4 }}
+                                        <span class="icon-car">待退款</span>
+                                        {{ elseif $order.state eq 5 }}
+                                        <span class="icon-ok">已退款</span>
+                                        {{ elseif $order.state eq 7 }}
+                                        <span class="icon-ok">已取消订单</span>
+                                        {{ else }}
+                                        <span class="icon-attention">待付款</span>
+                                        {{ /if }}
+                                        <span style="padding: 0 25px 0 15px; font-weight: bold;">订单总额：<span style="font-size: 14px;color: #EB2E6F;">￥{{$order.total}}元</span></span>
+
+                                        {{ if $order.state eq 1 }}
+                                        <a style="color: #EB2E6F;" href="{{ url controller='Member' action='RefundMoney' order_id=$order.order_id }}" onclick="if(!confirm('您确定要退款吗？')){ return false; }" title="申请退款">申请退款</a>
+                                        {{ elseif $order.state eq 2 }}
+                                        <a style="color: blue;" href="{{$order.delivery_way.deliveryL}}" title="查看物流">查看物流</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a style="color: #EB2E6F;" id="confirmDelivery" href="{{url controller='Member' action='ConfirmDelivery' order_id=$order.order_id}}" title="确认收货">确认收货</a>
+                                        {{ elseif $order.state eq 3 }}
+                                        {{ elseif $order.state eq 4 }}
+                                        {{ elseif $order.state eq 5 }}
+                                        {{ elseif $order.state eq 7 }}
+                                        {{ else }}
+                                        <a style="color: #EB2E6F;" href="{{ url controller='Check' action='SelectDelivery' orderId=$order.order_id }}" title="现在付款">现在付款</a>
+                                        {{ /if }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    {{ /if }}
+                    {{ /foreach }}
+                </div>
+
+                {{ else }}
+
+            <div class="main-mycar-btn" style="width: 40%; margin: 0 auto; font-size: 16px; height: 200px; line-height: 200px; background: url('themes/default/images/cart.jpg') no-repeat left center; padding-left: 90px;">
+                您没有购买任何商品， 
+                <a href="{{ url controller='Products' cate_id=0 }}" class="button" title="继续购物">去逛一下吧 &raquo;</a>
+            </div>  
+
+                {{ /if }}
+
+            </div>
+
+        </div>
+        <!--/*end gaincar个人中心*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+    
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    jQuery(function() {
+        $("#confirmDelivery").click(function() {
+            if(!confirm("您确定已经收货了吗？")) {
+                return false;
+            }
+        });
+    });
+</script>
+</body>
+</html> 

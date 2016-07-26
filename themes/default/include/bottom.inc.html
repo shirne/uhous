@@ -1,0 +1,91 @@
+<!--/*help帮助中心*/-->
+<div id="helpcenter">
+    <ul class="help">
+        <li class="service">
+            <dl>
+                <dt>客服中心</dt>
+                <dd>服务时间:24小时</dd>
+                <dd>服务热线：
+                    <br/>
+                    400-0760-163
+                </dd>
+            </dl>
+        </li>
+        <li class="infomation">
+            <dl>
+                <dt>购物指南</dt>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Guide' }}#guide" title="购物流程">购物流程</a></dd>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Guide' }}#question" title="常见问题">常见问题</a></dd>
+            </dl>
+            <dl>
+                <dt>支付方式</dt>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Payment' }}#onlinePay" title="网银在线支付方式">网银在线支付方式</a></dd>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Payment' }}#platformPay" title="支付平台方式">支付平台方式</a></dd>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Payment' }}#counterPay" title="银行柜台汇款">银行柜台汇款</a></dd>
+            </dl>
+            <dl>
+                <dt>配送办法</dt>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Delivery' }}#delivery" title="配送方式">配送方式</a></dd>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Delivery' }}#deliveryTime" title="配送时间及费用">配送时间及费用</a></dd>
+            </dl>
+            <dl>
+                <dt>售后服务</dt>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Service' }}#tuihuo" title="退换货办理流程">退换货办理流程</a></dd>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Service' }}#weixiu" title="维修补件说明">维修补件说明</a></dd>
+            </dl>
+            <dl>
+                <dt>购物条款</dt>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Provision' }}#definition" title="免责声明">免责声明</a></dd>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Provision' }}#serect" title="隐私保护">隐私保护</a></dd>
+                <dd><a target="_blank" href="{{ url controller='Information' action='Provision' }}#register" title="注册协议">注册协议</a></dd>
+            </dl>
+        </li>
+        <li class="private">
+            <dl>
+                <dt>免费机会</dt>
+                <dd>输入你的电子邮件，免费领取200元的
+                    家具优惠券，同时你会看到我们为您独
+                    家提供的高品质超价值的产品。</dd>
+                <dd>
+                    <form action="{{ url controller='Member' action='login' }}#reg" method="post" class="helpcenter-email">
+                        <input class="helpcenter-text" type="text" name='email' value="输入您的E-mail" /><input class="helpcenter-sumbit" name="" type="submit" value=">>" />
+                    </form>
+                    请输入一个有效的电子邮件地址，
+                    <br/>
+                    <a href="{{url controller='Member' action='login'}}" class="right"><img src="/themes/default/images/priv.png" alt="注册即送300" /></a>例如johndoe@uhous.com
+                    <br/>
+                    <script type="text/javascript">
+                        $(function(){
+                            initInput('.helpcenter-text')
+                        })
+                    </script>
+                </dd>
+                <dd><!--分享链接-->
+                    <div>
+                        <!-- Baidu Button BEGIN --><!--div id="bdshare" class="bdshare_b" style="line-height: 12px;"><img src="http://bdimg.share.baidu.com/static/images/type-button-1.jpg" />
+                        </div--><!--script type="text/javascript" id="bdshare_js" data="type=button&amp;uid=45627" ></script>
+                        <script type="text/javascript" id="bdshell_js"></script>
+                        <script type="text/javascript">
+                        document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?t=" + new Date().getHours();
+                        </script--><!-- Baidu Button END -->
+                    </div>
+                    <!--end 分享链接-->
+                </dd>
+            </dl>
+        </li>
+    </ul>
+	<ul class="ico">
+		<li class="ico1"></li>
+		<li class="ico2"></li>
+		<li class="ico3"></li>
+		<li class="ico4"></li>
+		<li class="ico5" onclick="addFavorite('http://www.uhous.com', 'UHOUS家居商城');return false;"></li>
+	</ul>
+	<script type="text/javascript">
+		function addFavorite(url, title) {try {window.external.addFavorite(url, title);} catch (e){try {window.sidebar.addPanel(title, url, '');} catch (e) {alert("请按 Ctrl+D 键添加到收藏夹", 'notice');}}}
+	</script>
+    <div class="clear">
+    </div>
+</div>
+<!--/*end help帮助中心*/-->
+{{include file='include/foot.inc.html'}}

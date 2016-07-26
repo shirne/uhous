@@ -1,0 +1,57 @@
+{{include file='include/head.inc.html'}}
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{include file='include/top.inc.html'}}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+        {{include file='include/nav.inc.html'}}        
+
+        <div class="clear"></div>
+		<div id="navwraper">
+        {{ webcontrol type='Nav' column='products' }}
+
+        <div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+
+        <!--/*gaincar产品*/-->
+        {{ if $list }}
+        <div class="main-prod">
+
+            {{ foreach from=$list item='row' }}
+			<dl>
+			<dt>
+				<div class="title"><a href="{{url controller='Products' action='list' brand_id=$row.brand_id cate_id=$smarty.get.cate_id}}" class="more">+</a><a class="title" href="{{url controller='Products' action='list' brand_id=$row.brand_id cate_id=$smarty.get.cate_id}}">{{$row.name}}</a></div>
+			</dt>
+			{{ foreach from=$row.products item='prod' }}
+            <dd> 
+                <a href="{{ url controller='Products' action='View' cate_id=$prod.cate_id id=$prod.pro_id }}" title="{{$prod.name}}"><img src="/uploads/thumb_{{$prod.pic}}" alt="{{$row.name}}" /></a>
+                {{$displayType[$prod.displayorder]}}{{$prod.name}}<br />
+                人民币:<b>{{$prod.price}}</b>&nbsp;&nbsp;{{ if $prod.discount }}<span style="color: red;">( {{$prod.discount}}折 )</span>{{ /if }}<br />
+            </dd>
+			{{ /foreach }}
+			<dd class="clear"></dd>
+			</dl>
+            {{ /foreach }}
+
+        </div>
+        {{ else }}
+        <div style="height: 200px; line-height: 200px;" class="tc">该分类下没有对应的产品...</div>
+        {{ /if }}
+        <div class="clear"></div> 
+        <!--/*end gaincar产品*/-->
+        {{ webcontrol type='Pagenavfront' name='turnpage' pager=$pager controller='Products' id=$smarty.get.id cate_id=$smarty.get.cate_id price=$smarty.get.price brand_id=$smarty.get.brand_id ordertype=$smarty.get.ordertype keyword=$keyword }}
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+
+        {{include file='include/bottom.inc.html'}}
+
+    </div>
+</body>
+</html> 

@@ -1,0 +1,72 @@
+{{ include file='include/head.inc.html' }}
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+		<div id="navwraper">
+	        {{ include file='include/nav.inc.html' }}        
+	        <div class="clear"></div>
+			<div id="location">
+		        {{ webcontrol type='Nav' column='products' }}
+	        </div>
+		</div>
+        <!--/*end menu*/-->
+
+        <!--/*gaincar商品评论*/-->
+        <h2>所有评论</h2>
+        <div class="main-reply">
+
+            {{ foreach from=$rows item='row' }}
+            <div class="main-reply-txt">         
+                <span>{{$row.member.username}} 来自：{{$row.member.email}} {{$row.created|date_format:'%Y/%m/%d %H:%M:%S'}} <div class="main-reply-txt-btnreply"></div></span>
+
+                <div class="fl main-reply-score">          
+                    <p>
+                        <b>{{$row.member.username}}</b> 购买 
+                        <b><a href="{{ url controller='Products' pro_id=$product.pro_id }}" title="{{$product.name}}">{{$product.name}}</a></b>后，评为 
+                        <small id="stars{{$row.com_id}}"></small>
+                    </p>
+                    <script type="text/javascript" charset="utf-8">
+                    jQuery(function($) {
+                        $('#stars'+'{{$row.com_id}}').css('width', '300px');
+                        $('#stars'+'{{$row.com_id}}').raty({
+                            start: {{ $row.points }},
+                            readOnly: true,
+                        });
+                    });
+                    </script>
+                    <div class="clear"><!--Clear Float--></div>
+                </div>
+
+                <div class="clear"><!--Clear Float--></div>
+                {{$row.memo}}
+                <div class="clear"><!--Clear Float--></div>
+                {{ if $row.reply}}
+                <div class="main-reply-txt-huifu">
+                    <b>客服[热情]回复说：</b>
+                    {{$row.reply|strip_tags}}
+                </div>
+                {{ /if }}
+            </div>
+            {{ /foreach }}
+
+        </div>
+        <!--/*end gaincar商品评论*/-->
+        {{ webcontrol type='Pagenavfront' name='turnpage' pager=$pager controller='Products' do=$smarty.get.do id=$smarty.get.id cate_id=$cate_id }}
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+
+</body>
+</html> 

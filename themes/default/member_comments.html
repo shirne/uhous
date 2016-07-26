@@ -1,0 +1,108 @@
+{{ include file='include/head.inc.html' }}
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+        <div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+
+        <!--/*gaincar个人中心*/-->
+        <div class="main-member clearfix">
+            {{ include file='member_nav.inc.html' }}
+
+            <div class="main-member-right">
+                <h3>我的评价</h3>
+                {{ if $rows }}
+                <table class="main-member-bought" width="93%" align="center" border="0" cellspacing="10" cellpadding="10">
+                    <tbody>
+                        <tr class="main-member-bought-title">
+                            <td width="250" class="tc">评论</td>
+                            <td width="102">评价人</td>
+                            <td width="162" align="">商品信息</td>
+                            <td width="103" align="right">评论时间</td>
+                        </tr>
+                        {{ foreach from=$rows item='row' }}
+                        <tr class="main-member-bought-main" >
+                            <td class="main-member-bought-name">{{$row.memo}}</td>
+                            <td align="">{{$row.member.username}}</td>
+                            <td align="">
+                                <img src="/uploads/thumb_{{$row.products.pic}}" width="90" alt="{{$row.products.name}}" /><br />
+                                <a href="{{ url controller='Products' cate_id=$row.products.cate_id id=$row.products.pro_id }}">{{$row.products.name}}</a><br />
+                                <p><span style="color:orange;">￥{{$row.products.price}}</span>元</p>
+                            </td>
+                            <td align="right">{{$row.created|date_format:'%Y-%m-%d %H:%M:%S'}}</td>
+                        </tr>
+                        {{ /foreach }}
+                    </tbody>
+                </table>
+                {{ else }}
+
+            <div class="main-mycar-btn" style="width: 40%; margin: 0 auto; font-size: 16px; height: 200px; line-height: 200px; background: url('themes/default/images/cart.jpg') no-repeat left center; padding-left: 90px;">
+                您还没有评论任何商品， 
+                <a href="{{ url controller='Products' cate_id=1 }}" class="button" title="继续购物">去逛一下吧 &raquo;</a>
+            </div>  
+
+                {{ /if }}
+
+            {{ webcontrol type='Pagenavfront' name='turnpage' pager=$pager controller='Member' action='Comments' id=$smarty.get.id }}
+                
+
+            </div>
+
+        </div>
+        <!--/*end gaincar个人中心*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+jQuery(function($) {
+    $("a#buy").each(function() {
+        $(this).click(function() {
+            var url = $(this).attr('rel');
+            $.get(
+                url,
+                function(data) 
+                { 
+                    if(data.success) {
+                        window.location.href = "{{ url controller='Member' action='Carts' }}";
+                    }
+                },
+                'json'
+            );
+        });
+    });
+
+    $("a#delete").click(function() {
+        $(this).click(function() {
+            if(confirm("您确定要删除这些数据吗？")) {
+                var url = $(this).attr('rel');
+                $.get(
+                    url,
+                    function(data) {
+                        if(data.success) {
+                            window.location.reload();
+                        }
+                    },
+                    'json'
+                );
+            }
+        });
+    });
+});
+</script>
+</body>
+</html> 

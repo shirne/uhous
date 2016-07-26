@@ -1,0 +1,132 @@
+{{ include file='include/head.inc.html' }}
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+        <div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+        <!--/*gaincar登陆*/-->
+        <div class="main-mycar main-adress">
+
+            <h3 style="margin: 50px 0 35px;" class="tc">找回密码</h3>
+
+            {{ if $step eq 1 }}
+            <form id="userForm" action="{{ url controller='Member' action='ForgetPass' }}" method="post" accept-charset="utf-8">
+
+                <table border="0" style="margin-left: 40%;">
+                    <tr><td>请输入用户名：</td></tr>
+                    <tr>
+                        <td>
+                            <label>
+                                <input id="username" type="text" name="username" value="" size="25">
+                                <small id="username_tips_error" class="error hiden">用户名不存在</small>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr><td>　</td></tr>
+                    <tr>
+                        <td>
+                            <a id="usubmit" href="javascript:void(0);" class="button" style="width: 40px;text-align:center;display:inline-block;">确定</a>
+                            <input type="hidden" name="step" value="2">
+                        <td>
+                    </tr>
+                </table>
+                
+            </form>
+            {{ elseif $step eq 2 }}
+
+            <form id="emailForm" action="{{ url controller='Member' action='ForgetPass' }}" method="post" accept-charset="utf-8">
+
+                <table border="0" style="margin-left: 40%;">
+                    <tr><td>请输入注册时的Email地址(&nbsp;<span style="color: #EB2E6F;">***@***.com&nbsp;</span>)：</td></tr>
+                    <tr>
+                        <td>
+                            <label>
+                                <input id="email" type="text" name="email" value="" size="25">
+                                <small id="email_tips_error" class="error hiden">email地址不正确</small>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr><td>　</td></tr>
+                    <tr>
+                        <td>
+                            <input type="submit" href="javascript:void(0);" class="button" style="width: 80px;text-align:center;display:inline-block;" value="提交申请" />
+                            <input type="hidden" name="step" value="3">
+                            <!--input type="hidden" name="username" value="{{$username}}"-->
+                        <td>
+                    </tr>
+                </table>
+                
+            </form>
+
+            {{ else }}
+
+            {{ /if }}
+        </div>
+        <!--/*end gaincar登陆*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+<script type="text/javascript" charset="utf-8">
+jQuery(function($) {
+    $("#usubmit").click(function() {
+        $.post(
+            "{{url controller='Member' action='AjaxCheckUsername'}}",
+            { 
+                username : $("#username").val(),
+            },
+            function(data)
+            {
+                if(data.hasIt) {
+
+                    $("#userForm").submit();
+                    
+                } else {
+
+                    $("#username_tips_error").attr('style', 'display:inline-block;');
+
+                }
+            },
+            'json'
+        );
+    });
+
+    $("#esubmit").click(function() {
+        $.post(
+            "{{url controller='Member' action='AjaxCheckEmail'}}",
+            { 
+                email : $("#email").val(),
+                username : $("input[name='username']").val()
+            },
+            function(data)
+            {
+                if(data.success) {
+
+                    $("#emailForm").submit();
+
+                } else {
+
+                    $("#email_tips_error").attr('style', 'display:inline-block;');
+
+                }
+            },
+            'json'
+        );
+    });
+});
+</script>
+</body>
+</html> 

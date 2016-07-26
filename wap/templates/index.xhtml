@@ -1,0 +1,99 @@
+{{include file="include/top.xhtml"}}
+
+<!-- 搜索框 -->
+<div id="search">
+	<form name="searchform" action="{{url Controller='Products' action='Search'}}">
+		<label><input type="text" class="text" name="key" value="商品名称或编号" /></label><input type="submit" class="button" name="search" value="搜商品" />
+	</form>
+</div>
+<script type="text/javascript">
+	function initSearch(o,text){
+		if(!o && !o.nodeType)return;
+		if(!text)text=o.value;
+		o.onfocus=function(){
+			if(this.value==text)this.value='';
+		}
+		o.onblur=function(){
+			if(this.value=='')this.value=text;
+		}
+		var osubmit=o.form.onsubmit;
+		o.form.onsubmit=function(){
+			if(o.value==text)o.value='';
+			if(osubmit){
+				return osubmit();
+			}else{
+				return true;
+			}
+		}
+	}
+	initSearch(document.searchform.key);
+</script>
+<!-- 搜索框 END -->
+
+<!-- 展示图 -->
+<script type="text/javascript" src="/wap/js/slides.min.jquery.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#slide').slides({
+			preload:true,
+			preloadImage:'/wap/images/loading.gif',
+			play:5000,
+			pause:2500,
+			hoverpause:true,
+			container:'box'
+		})
+	})
+</script>
+<div id="slide">
+	<div class="box">
+		<a href=""><img src="/wap/pic/slide1.jpg" alt="" /></a>
+		<a href=""><img src="/wap/pic/slide2.jpg" alt="" /></a>
+		<a href=""><img src="/wap/pic/slide3.jpg" alt="" /></a>
+	</div>
+	<a href="javascript:void(0)" class="prev"><img src="/wap/images/arrow-prev.png" alt="*" /></a>
+	<a href="javascript:void(0)" class="next"><img src="/wap/images/arrow-next.png" alt="*" /></a>
+</div>
+<!-- 展示图 END -->
+
+<!-- 特价优惠 -->
+<div id="priv">
+	<a class="button">注册即送200元</a>
+	<a class="button">邀请即送100元</a>
+</div>
+<!-- 特价优惠 END -->
+
+<!-- 热卖产品 -->
+<div id="hotprod" class="column">
+	<h2>热卖产品</h2>
+	<ul>
+		<li><a href="">产品名称</a></li>
+		<li><a href="">产品名称</a></li>
+		<li><a href="">产品名称</a></li>
+		<li><a href="">产品名称</a></li>
+		<li><a href="">产品名称</a></li>
+	</ul>
+</div>
+<!-- 热卖产品 END -->
+
+<!-- 特价产品 -->
+<div id="saleprod" class="column">
+	<h2>特价产品</h2>
+	<ul>
+		<li><a href="">产品名称</a></li>
+		<li><a href="">产品名称</a></li>
+		<li><a href="">产品名称</a></li>
+		<li><a href="">产品名称</a></li>
+		<li><a href="">产品名称</a></li>
+	</ul>
+</div>
+<!-- 特价产品 END -->
+
+<!-- 其它 -->
+<div id="links">
+	<a class="button" href="">购物车</a>
+	<a class="button" href="">帮助中心</a>
+	<a class="button" href="">客户端</a>
+	<p>商品质量问题无条件退货<br />满4999免运费</p>
+</div>
+<!-- 其它 END -->
+{{include file="include/footer.xhtml"}}

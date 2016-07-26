@@ -1,0 +1,146 @@
+{{include file='include/head.inc.html'}}
+</head>
+<body>
+    <div class="inclub">
+        <!--/*head*/-->{{include file='include/top.inc.html'}}<!--/*end head*/-->
+		<!--/*menu*/-->
+		<div id="navwraper">
+		{{include file='include/nav.inc.html'}} 
+        <div class="clear"></div>
+		<div id="location">
+        {{ webcontrol type='Nav' column='products' }}
+        <div class="fr nav-view">
+            <form>
+                <span></span>
+                <label>
+                    <select class="text" onchange="selectBrand(this);">
+                        <option value="">挑选品牌</option>
+                        {{ foreach from=$brands item='brand' }} <option {{  if $smarty.get.brand_id eq $brand.brand_id }}selected="selected"{{/if}}  value="{{$brand.brand_id}}">{{$brand.name}}  </option>
+                        {{ /foreach }}
+                    </select>
+                </label>
+                <label>
+                    <select class="text" onchange="selectPrice(this);">
+                        <option {{  if $smarty.get.price eq '0_max' }}selected="selected"{{ /if }}  value="0_max">挑选价格</option>
+                        <option {{  if $smarty.get.price eq '0_500' }}selected="selected"{{ /if }}  value="0_500">0~500元  </option>
+                        <option {{  if $smarty.get.price eq '500_1000' }}selected="selected"{{ /if }}  value="500_1000">500~1000元  </option>
+                        <option {{  if $smarty.get.price eq '1000_5000' }}selected="selected"{{ /if }}  value="1000_5000">1000~5000元  </option>
+                        <option {{  if $smarty.get.price eq '5000_max' }}selected="selected"{{ /if }}  value="5000_max">5000以上  </option>
+                    </select>
+                </label>
+                <span></span>
+                <select class="text priceorder" name="priceorder">
+                    <option value="default">默认排序方式</option>
+                    <option {{if $smarty.get.ordertype eq 'price'}}selected="selected"{{/if}}  value="price">按价格降序排序</option>
+                    <option {{if $smarty.get.ordertype eq 'selled'}}selected="selected"{{/if}}  value="selled">按销量降序排序</option>
+                </select>
+                <script type="text/javascript" charset="utf-8">
+                    jQuery(function($){
+                        $("form .priceorder").change(function(){
+                            var value = $("form .priceorder option:selected").val();
+                            window.location.href = "{{ url controller='Products' action='index' cate_id=$smarty.get.cate_id keyword=$smarty.get.keyword brand_id=$smarty.get.brand_id price=$smarty.get.price }}/ordertype/" + value;
+                        });
+                    });
+                </script>
+            </form>
+        </div>
+		</div>
+		</div>
+        <!--/*end menu*/--><!--/*gaincar产品*/-->
+		{{ if $rows }}
+		<script type="text/javascript">
+		jQuery(function($){
+			$('#productlist li').hover(function(){
+				$(this).addClass('hover');
+			},function(){
+				$(this).removeClass('hover');
+			})
+		});
+		function imgOnload(o){
+			var p=$(o).parent(),h=p.height(),w=p.width(),s=w/h;
+			var tw=o.width,th=o.height,ts=tw/th;
+			if(ts>=s && th>=h){
+				o.height=h;
+				o.width=h*ts;
+				$(o).css({position:'relative',left:(w-o.width)*.5})
+			}else if(ts<=s && tw>=w){
+				o.width=w;
+				o.height=w/ts;
+				$(o).css({position:'relative',top:(h-o.height)*.5})
+			}
+		}
+        </script>
+		<div id="productlist">
+        <ul class="main-prod">
+            {{ foreach from=$rows item='row' }}
+            <li>
+                <a class="img" href="{{ url controller='Products' action='View' cate_id=$row.cate_id id=$row.pro_id }}" title="{{$row.name}}"><img src="/uploads/{{$row.pic}}" onload="imgOnload(this)" alt="{{$row.name}}" /></a>
+				{{ if $row.discount }}<span class="discount"><b>{{$row.discount}}折</b></span>{{ /if }}
+				
+				{{$displayType[$row.displayorder]}}
+				<a href="{{ url controller='Products' action='View' cate_id=$row.cate_id id=$row.pro_id }}" class="title">
+					<h4>{{$row.name}}</h4>
+					<p>
+						<span class="right"></span>
+						<span class="price">￥{{$row.price}}</span><span class="saled">已售：{{$row.selled}}件</span><br />
+						<del>市场价：￥{{$row.retail}}</del>
+					</p>
+				</a>
+            </li>
+            {{ /foreach }}
+        </ul>
+		</div>
+        {{ else }}
+        <div style="height: 200px; line-height: 200px;" class="tc">
+            商品资料整理中，敬请期待...
+        </div>
+        {{ /if }}
+        <div class="clear">
+        </div>
+        <!--/*end gaincar产品*/-->
+        {{ webcontrol type='Pagenavfront' name='turnpage' pager=$pager controller='Products' action='index' id=$smarty.get.id cate_id=$smarty.get.cate_id price=$smarty.get.price brand_id=$smarty.get.brand_id ordertype=$smarty.get.ordertype keyword=$keyword }}
+		<!--/*help帮助中心*/-->
+        <div class="clear">
+        </div>
+        {{include file='include/bottom.inc.html'}}
+    </div>
+    <script type="text/javascript" charset="utf-8">
+        
+        function selectPrice(o){
+            var price = "{{$smarty.get.price}}", v = o.options[o.selectedIndex].value;
+            if (v != 0) {
+                if (price) {
+                    window.location.href = "{{ url controller='Products' action='index' cate_id=$smarty.get.cate_id keyword=$smarty.get.keyword brand_id=$smarty.get.brand_id ordertype=$smarty.get.ordertype}}/price/" + v;
+                }
+                else {
+                    window.location.href += ("/price/" + v);
+                }
+            }
+        }
+        
+        function checkform(f){
+            if (f.keyword.value == '请输入关键字') {
+                f.keyword.value = '';
+            }
+            return true;
+        }
+        
+        function selectBrand(o){
+            var brand = "{{$smarty.get.brand_id}}", v = o.options[o.selectedIndex].value;
+            if (v != 0) {
+                if (brand) {
+                    window.location.href = "{{ url controller='Products' action='index' cate_id=$smarty.get.cate_id keyword=$smarty.get.keyword price=$smarty.get.price ordertype=$smarty.get.ordertype}}/brand_id/" + v;
+                }
+                else {
+                    window.location.href += ("/brand_id/" + v);
+                }
+            }
+            else {
+                if (brand) {
+                    window.location.href = "{{ url controller='Products' action='index' cate_id=$smarty.get.cate_id keyword=$smarty.get.keyword price=$smarty.get.price ordertype=$smarty.get.ordertype}}";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

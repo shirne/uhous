@@ -1,0 +1,160 @@
+{{ include file='include/head.inc.html' }}
+<style type="text/css" media="screen">
+    .commentForm {
+        }
+        .commentForm .info { width: 45%; float: left; }
+        .commentForm .comment { width: 55%; float: left; }
+        .commentForm .title {
+            color: #00afb2;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 1px solid #eee;
+            height: 25px;
+            line-height: 25px;
+            }
+            .title span a:link,
+            .title span a:visited,
+            .title span a:active {
+                color: #00afb2;
+                font-size: 12px;
+                font-weight: normal;
+                margin-left: 20px;
+                }
+            .title span a:hover {
+                }
+        .commentForm .bar {
+            height: 25px;
+            background: #eee;
+            padding-left: 30px;
+            }
+    
+    .commentForm .content {
+        padding: 15px;
+        min-height: 250px;
+        _height: 250px;
+        }
+    
+    .bottom { }
+        .bottom a:link,
+        .bottom a:active,
+        .bottom a:visited {
+            margin-left: 44%;
+            display: inline-block;
+            height: 25px;
+            line-height: 25px;
+            width: 80px;
+            text-align: center;
+            }
+    
+    ul.cmtlist { margin-left: 15px; }
+        ul.cmtlist li {
+            font-size: 12px;
+            border-bottom: 1px dotted #ccc;
+            }
+            ul.cmtlist li span {
+                color: #999;
+                }
+    table td {
+        padding-left: 15px;
+        }
+</style>
+</head>
+<body>
+    <div class="inclub">
+        <!--/*head*/-->{{ include file='include/top.inc.html' }}<!--/*end head*/-->
+		<!--/*menu*/-->
+		{{ include file='include/nav.inc.html' }}
+        <div class="clear">
+        </div>
+        <!--/*end menu*/--><!--/*gaincar登陆*/-->
+        <div class="main-mycar">
+            <div class="commentForm">
+                <div class="title">
+                    对商品添加评论 <span><a href="javascript:history.back();">返回&gt;&gt;</a></span>
+                </div>
+                <div class="info">
+                    <div class="bar">
+                        <span>商品信息</span>
+                    </div>
+                    <div class="content">
+                        <table border="0" style="margin-top: 20px;">
+                            <tr>
+                                <td><img src="/uploads/thumb_{{$product.pic}}" width="100"/></td><td style="padding-left: 20px;"><a href="{{ url controller='Products' action='view' cate_id=$product.cate_id id=$product.pro_id }}" title="{{$product.name}}" style="color: #00afb2;">{{$product.name}}</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="font-size: 12px;">
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="font-size: 12px;">您的评分：<span id="star"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="comment">
+                    <div class="bar">
+                        <span>添加评论</span>
+                    </div>
+                    <div class="content">
+                        <form id="cmtform" action="{{ url controller='Products' action='SaveComment' }}" method="post" accept-charset="utf-8">
+                            <table border="0" style="margin-top: 20px;">
+                                <tr>
+                                    <td><textarea name="memo" rows="8" cols="40"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td><img id="close" src="/themes/default/images/closecmt.jpg" alt="收起评论" /></td>
+                                </tr>
+                            </table><input type="hidden" name="points" value="5"><input type="hidden" name="pro_id" value="{{$product.pro_id}}" />
+                        </form>
+                    </div>
+                </div>
+                <div class="clear">
+                    <!--Clear Float-->
+                </div>
+                <div class="bottom">
+                    <a href="javascript:void(0);" class="button" onclick="$('#cmtform').submit()">提交评论</a>
+                    <br/>
+                    <br/>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+        <!--/*end gaincar登陆*/-->
+        <!--/*help帮助中心*/-->
+        <div class="clear">
+        </div>
+        {{ include file='include/bottom.inc.html' }}
+    </div>
+	<script type="text/javascript" src="/themes/default/js/jquery.raty.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        jQuery(function($) {
+            var open = 1;
+            $("#close").click(function() {
+                if(open == 1) {
+                    $("textarea").slideUp("slow", function() {
+                        $("#close").attr('src', "/themes/default/images/opencmt.jpg");
+                        open = 0;
+                    });
+                } else {
+                    $("textarea").slideDown("slow", function() {
+                        $("#close").attr('src', "/themes/default/images/closecmt.jpg");
+                        open = 1;
+                    });
+                    
+                }
+            });
+        
+            $('#star').css('width', '300px');
+            $('#star').raty({
+                start: 5,//{{ $product.points }},
+                click: function(score) {
+                    $("input[name='points']").val(score);
+                }
+            });
+        });
+            
+    </script>
+</body>
+</html>

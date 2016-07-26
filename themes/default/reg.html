@@ -1,0 +1,224 @@
+{{ include file='include/head.inc.html' }}
+<script>
+    function toQzoneLogin(){
+        var A = window.open("{{url controller='member' action='qqlogin'}}", "TencentLogin", "width=450,height=320,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");
+    }
+</script>
+</head>
+<script type="text/javascript">
+	var src=['bg1.jpg','bg2.jpg','bg3.jpg'];
+	jQuery(function($){
+		$('#wraperbg').css('background','url(/themes/default/file/'+src[Math.floor(Math.random()*src.length)]+') center top no-repeat')
+	})
+</script>
+<body>
+    <div class="inclub">
+        <!--/*head*/-->{{ include file='include/top.inc.html' }}<!--/*end head*/--><!--/*menu*/-->
+        <div id="navwraper">
+            {{ include file='include/nav.inc.html' }}
+            <div class="clear">
+            </div>
+            <div id="location">
+                <ul class="nav-location fl clearfix">
+                    <li class="path home">
+                        <a href="/">首页</a>
+                    </li>
+                    <li class="current">
+                        <a href="#">登陆</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--/*end menu*/-->
+	</div>
+	<div id="wraperbg">
+		<!--/*gaincar登陆*/-->
+        <div class="main-mycar loginpage">
+            <div class="main-login">
+            	<div class="left info">
+            		<h4>超值价格</h4>
+					<p>我们剔除中间商并为您节省50%-80%的价格</p>
+					<h4>品质保证</h4>
+					<p>我们为您提供最好的家居产品</p>
+					<a class="button" href="#" id="goreg">注册</a>
+            	</div>
+				<div class="left login">
+                <h2>会员登陆</h2>
+                <form id="loginForm" name="loginForm" action="{{ url controller='Member' action='Tips' }}" method="post">
+                    <label><span>用户名:</span><input type="text" class="text" name="username" id="username" size="30" value="用户名/邮箱" /></label><label><span>密　码:</span><input type="password" class="text" name="password" id="pwd" size="30" /></label>
+                    <div class="clear">
+                    </div>
+                    <div class="main-login-btn fl">
+                        <input type="submit" id="loginBtn" class="button" value="登陆&raquo;" />
+                    </div>
+                    <!--//QQ登陆--><span id="qqLoginBtn" style="float:left;height:40px;padding-top:6px"><a href="#" onclick="toQzoneLogin()" style="float:left;margin-top:10px"><img src="/themes/default/images/QQ_login.png" alt="QQ登陆" /></a></span><!--QQ登陆//-->
+                    <div class="clear">
+                        <!--Clear Float-->
+                    </div>
+                    <a class="main-login-link" href="{{url controller='Member' action='ForgetPass'}}">忘记密码？</a>
+                    <input type="hidden" name="title" value="系统信息" /><input type="hidden" name="description" value="登录成功" /><input type="hidden" name="url" value="{{url controller='Member'}}" />
+                </form>
+				</div>
+            </div>
+            <div class="main-regdit">
+            	<div class="left info">
+            		<h4>超值价格</h4>
+					<p>我们剔除中间商并为您节省50%-80%的价格</p>
+					<h4>品质保证</h4>
+					<p>我们为您提供最好的家居产品</p>
+					<a class="button" href="#" id="gologin">登陆</a>
+            	</div>
+				<div class="left reg">
+                <h2>创建一个新账户 </h2>
+                <form id="registerForm" name="register" action="{{ url controller='Member' action='Register' }}" method="post">
+                    <div class="line">
+                        <span>E-mail:</span>
+                        <input type="text" class="text" name="email" id="eml" value="{{$email}}" size="28" />
+                    </div>
+                    <div class="line">
+                        <span>邀请码:</span>
+                        <input type="text" class="text" class="imgcode" size="6" name="imgcode" id="imgcode" style="width:60px"/><a href="#" id="getcode" class="button">获取邀请码</a>
+                    </div>
+                    <div class="line" style="height:50px;">
+                        <p><font color="red">注意</font>：当您点下立即开通按钮时<br />即代表您同意本站的<a href="{{url controller='information' do='provision'}}#register" target="_blank" title="查看条款">注册协议及条款</a></p>
+                    </div>
+                    <div class="main-regdit-btn">
+                        <input type="submit" class="button" value="立即开通&raquo;" />
+                    </div>
+                    <div class="main-regdit-warnning">
+                        <input type="hidden" name="col_key" value="{{$col_key}}" /><input type="hidden" name="carts" value="{{$smarty.get.carts}}" /><input type="hidden" name="lang" value="{{$lang}}" />
+                        <div class="clear">
+                            <!--Clear Float-->
+                        </div>
+                    </div>
+				</form>
+            </div>
+        </div>
+		</div>
+		<div class="clear"></div>
+        <!--/*end gaincar登陆*/-->
+	</div>
+	<div class="clear"></div>
+	<div class="inclub">
+        <!--/*help帮助中心*/-->
+        <div class="clear">
+        </div>
+        {{ include file='include/bottom.inc.html' }}
+    </div>
+    <script type="text/javascript" charset="utf-8">
+        jQuery(function($){
+        	initInput(document.loginForm.username);
+			var canregister={{if $sendedcode}}true{{else}}false{{/if}};
+			
+			$('#goreg').click(function(){
+				$('#wraperbg .main-regdit').animate({left:0},500);
+				$('#wraperbg .main-login').animate({left:600},500,function(){document.register.email.focus();});
+			});
+			$('#gologin').click(function(){
+				$('#wraperbg .main-regdit').animate({left:-600},500);
+				$('#wraperbg .main-login').animate({left:0},500,function(){document.loginForm.username.focus();});
+				
+			});
+			if(location.hash=='#reg'){
+			    $('#goreg').click();
+			    document.register.email.focus();
+			}else{
+			    document.loginForm.username.focus();
+			}
+			
+            // 登陆post请求
+            $("#loginForm").submit(function(e){
+                var loginForm = $("#loginForm");
+                if(document.loginForm.username.value=='' || document.loginForm.password.value==''){
+                    $.fn.Tips({text:'请输入用户名和密码',type:'error',time:3});
+                }
+                var url = "{{url controller='Member' action='Login'}}";
+                $.post(url, loginForm.serialize(), function(data){
+                    if (!data.loginStatus) {
+                        $.fn.Tips({text:'用户名或密码错误',type:'error',time:3});
+                    }
+                    else {
+                        $.fn.Tips({text:'登陆成功',type:'okay',time:1});
+                        setTimeout(function(){location.href=data.backurl},1)
+                    }
+                }, 'json');
+                e.preventDefault();
+                return false;
+            });
+            
+            /**
+             * 检验邮箱格式
+             */
+            $("#getcode").click(function(e){
+            	e.preventDefault();
+                var cEmail = register.email.value;
+				var fn=arguments.callee;
+				if(cEmail){
+					if(cEmail.match(/^[\w-]+@{1}[\w-]+\.{1}\w{2,4}(\.{0,1}\w{2}){0,1}$/i)){
+						$("#getcode").unbind().click(function(){e.preventDefault();});
+						$.fn.Tips({text:'邀请码正在发送中....',time:10});
+						var nt=setTimeout(function(){
+							//发送失败,网络错误
+							$.fn.Tips({text:'网络错误,请稍后重试。',type:'error',time:5});
+							$("#getcode").unbind().click(fn);
+						},9000);
+						$.post('{{url controller="member" action="InviteCode"}}',{'email':cEmail},function(d){
+							clearTimeout(nt);
+							if(d && d.status==0){
+								//发送邮件成功
+								$.fn.Tips({text:'发送成功，请登陆邮箱查看',type:'okay',time:5});
+								canregister=true;
+								var i=40,t,oldtext=$("#getcode").text();
+								t=setInterval(function(){
+									$("#getcode").text((i--)+'秒后再次发送');
+									if(i<=0){
+										clearInterval(t);
+										$("#getcode").text(oldtext).unbind().click(fn);
+									}
+								},1000);
+							}else{
+								var msg='发送失败或网络错误,请稍后重试。';
+								if(d && d.message)msg=d.message;
+								//发送失败,网络错误
+								$.fn.Tips({text:msg,type:'error',time:5});
+								$("#getcode").unbind().click(fn);
+							}
+						},'json');
+						
+					}else{
+						$.fn.Tips({text:'请填写正确的邮箱地址',type:'warn',time:2});
+						register.email.focus();
+					}
+				}else{
+					$.fn.Tips({text:'请先填写邮箱地址',type:'warn',time:2});
+					register.email.focus();
+				}
+            });
+			$('#registerForm').submit(function(e){
+				
+				if(register.email.value==''){
+					$.fn.Tips({text:'请先填写邮箱地址',type:'warn',time:2});
+					register.email.focus();
+					e.preventDefault();
+					return false;
+				}
+				if(!canregister){
+					$.fn.Tips({text:'请点击获取验证码，并到邮箱收取后再注册',type:'warn',time:2});
+					register.email.focus();
+					e.preventDefault();
+					return false;
+				}
+				if(register.imgcode.value==''){
+					$.fn.Tips({text:'请填写您从邮箱获取邀的请码',type:'warn',time:2});
+					register.imgcode.focus();
+					e.preventDefault();
+					return false;
+				}
+				$('#registerForm').unbind('submit');
+				register.submit();
+			})
+		});
+        
+    </script>
+</body>
+</html>

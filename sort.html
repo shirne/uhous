@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script type="text/javascript">
+Array.prototype.qsort=function(fn){
+	var l=this.length;
+	if(l < 2)return this;
+	var left=[],right=[],p=Math.floor(l/2),v=this.splice(p,1)[0],l=this.length;
+	
+	if(typeof fn!='function')fn=function(a,b){return a<b};
+	
+	for(var i=0;i<l;i++){
+		if(fn(this[i],v)){
+			left.push(this[i]);
+		}else{
+			right.push(this[i]);
+		}
+	}
+	
+	return left.qsort(fn).concat([v],right.qsort(fn));
+}
+
+function fastsort(arr){
+	var l=arr.length;
+	if(l < 2)return arr;
+	var left=[],right=[],p=Math.floor(l/2),v=arr.splice(p,1)[0];
+	for(var i=0;i<l;i++){
+		if(arr[i]>v){
+			left.push(arr[i]);
+		}else{
+			right.push(arr[i]);
+		}
+	}
+	console.log(left);
+	console.log(right);
+	return fastsort(left).concat([v],fastsort(right));
+}
+console.log([5,6,45].qsort());
+
+//console.log(fastsort([5,6,5,8,4,62,53,1,48,2,96,45]));
+</script>
+</head>
+
+<body>
+</body>
+</html>

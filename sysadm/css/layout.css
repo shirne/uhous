@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* Layout Style
+---------------------------------------------------------*/
+.ui-layout-pane {
+    background-color: #fff !important;
+    }
+.ui-layout-resizer {
+    background-color: #CDE2EF !important;
+    }
+.ui-layout-toggler {}
+.ui-layout-toggler-open {
+    background: url(../../sysadm/img/toggle-lt.gif) no-repeat !important;
+    }
+.ui-layout-toggler-closed {
+    background: url(../../sysadm/img/toggle-lg.gif) no-repeat !important;
+    }
+
+
+
+

@@ -1,0 +1,205 @@
+{{include file='include/head.inc.html'}}
+<script src="/themes/default/js/slides.min.jquery.js">
+</script>
+<script>
+    $(function(){
+        if ($.browser.msie && parseFloat($.browser.version) < 7) {
+            $('#slides .prev img')[0].src = '/themes/default/pic/left-ie6.png';
+            $('#slides .next img')[0].src = '/themes/default/pic/right-ie6.png';
+        }
+        
+        // Initialize Slides
+        $('#slides').slides({
+            preload: true,
+            preloadImage: '/themes/default/img/loading.gif',
+            generatePagination: false,
+            play: 5000,
+            pause: 2500,
+            hoverPause: true,
+            // Get the starting slide
+            start: 1,
+            animationComplete: function(current){
+                // Set the slide number as a hash
+                //window.location.hash = '#' + current;
+            }
+        });
+        $('#slides .prev,#slides .next').hover(function(){
+            $(this).find('a').stop(true,true).fadeIn();
+        }, function(){
+            $(this).find('a').stop(true,true).fadeOut();
+        })
+    });
+</script>
+</head>
+<body>
+    <div class="inclub">
+        {{include file='include/top.inc.html'}}
+		<!--/*menu*/-->
+		<div id="navwraper">
+		{{include file='include/nav.inc.html'}}
+        <div class="clear"></div>
+		</div>
+        <!--/*end menu*/--><!--/*公告*/-->
+        <div id="notice">
+            <a class="right close"></a>
+            <p>邀请朋友注册www.uhous.com你和你的朋友将获得￥200、￥100元，<a href="{{url controller='member' action='invite'}}" style="color:#00afb2;text-decoration:underline">现在邀请</a>吧！</p>
+        </div>
+        <script type="text/javascript">
+            $('#notice a.close').click(function(){
+                $('#notice').slideUp('normal', function(){
+                    $(this).hide()
+                });
+            })
+        </script>
+        <!--/*end 公告*/-->
+    </div>
+    <div class="inclub" id="focus">
+        <!--/*焦点图*/-->
+        <div class="home-main-ban">
+            <div id="slides">
+                <div class="slides_container">
+                    {{ foreach from=$ads item='ad' }}
+                    <div class="slide">
+                        <a href="{{$ad.url}}" title="{{$ad.title}}"><img src="/uploads/{{$ad.pic}}" width="958" height="355" alt="{{$ad.title}}" /></a>
+                    </div>{{ /foreach }}
+                </div>
+                <div class="prev">
+                    <a class="prevt" id="left"><img src="/themes/default/pic/left.png" width="29" height="64" border="0" alt="Arrow Prev" /></a>
+                </div>
+                <div class="next">
+                    <a class="nextt" id="right"><img src="/themes/default/pic/right.png" width="29" height="64" border="0" alt="Arrow next" /></a>
+                </div>
+            </div>
+        </div><!--/*焦点图 END*/-->
+        <div class="clear">
+        </div>
+    </div>
+	<script type="text/javascript">
+		jQuery(function($){
+			$('#newprodlist li').hover(function(){
+				$(this).addClass('hover');
+			},function(){
+				$(this).removeClass('hover');
+			})
+		});
+		function imgOnload(o){
+			var p=$(o).parent(),h=p.height(),w=p.width(),s=w/h;
+			var tw=o.width,th=o.height,ts=tw/th;
+			if(ts>=s && th>=h){
+				o.height=h;
+				o.width=h*ts;
+				$(o).css({position:'relative',left:(w-o.width)*.5})
+			}else if(ts<=s && tw>=w){
+				o.width=w;
+				o.height=w/ts;
+				$(o).css({position:'relative',top:(h-o.height)*.5})
+			}
+		}
+	</script>
+    <div class="inclub newprod">
+        <div id="newprodlist">
+            <ul>{{foreach from=$newprod item='row'}}
+                <li>
+                	<a href="{{url controller='products' action='view' cate_id=$row.cate_id id=$row.pro_id}}" class="img"><img src="/uploads/{{$row.pic}}" onload="imgOnload(this)" alt="" /></a>
+					<a class="title" href="{{url controller='products' action='view' cate_id=$row.cate_id id=$row.pro_id}}">
+						<h4>{{$row.name}}&nbsp;</h4>
+						<p href="">
+							<span class="right"></span>
+							<span class="price">￥{{$row.price}}</span><br />
+							<del class="market">￥{{$row.retail}} 市场价</del>
+						</p>
+					</a>
+					{{ if $row.discount }}<span class="discount"><b>{{$row.discount}}折 </b></span>{{ /if }}
+                </li>{{/foreach}}
+            </ul>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="inclub">
+        <!--/**/-->
+        <div class="home-main clearfix">
+            <ul id="explore-nav">
+                <li>
+                    <a href="#" id="price">超值价格>></a>我们剔除中间商，并为您节省50%—80%的价格。
+                </li>
+                <li>
+                    <a href="#" id="quality">品质保证>></a>我们为您找到全世界上最好的家具商及家具产品。
+                </li>
+                <li>
+                    <a href="#" id="salability">畅销产品>></a>为您提供最新的畅销产品排行，给你作出最有价值购买选择。
+                </li>
+            </ul>
+            <div class="clear">
+            </div>
+            <script type="text/javascript">
+                $('.home-main li a').each(function(i, a){
+                    $(a).hover(function(){
+                        $(this).parent('li').addClass('hover');
+                    }, function(){
+                        $(this).parent('li').removeClass('hover')
+                    });
+                    $(a).click(function(){
+                        var b = $('.home-main-banner'), _ = this;
+                        if (b.eq(i).css('display') == 'none') {
+                            $('html,body').animate({
+                                'scrollTop': $(this).offset()['top'] - 120
+                            }, 400);
+                            b.slideUp().eq(i).slideDown(function(){
+                                $('.home-main li.active').removeClass('active');
+                                $(_).parent('li').addClass('active');
+                            });
+                        }
+                        else {
+                            b.slideUp(function(){
+                                $(_).parent('li').removeClass('active');
+                            });
+                        }
+                        return false;
+                    });
+                });
+            </script>
+        </div>
+        <!--/**/-->
+    </div>
+    <!--banner-->
+    <div class="inclub" id="banner">
+        <div class="home-main-banner" style="display:none;">
+            <img src="/themes/default/file/1.png" width="960" height="462" />
+        </div>
+        <div class="home-main-banner" style="display:none;">
+            <img src="/themes/default/file/2.png" width="960" height="462" />
+        </div>
+        <div class="home-main-banner" style="display:none;">
+            <img src="/themes/default/file/3.png"/>
+            <ul class="prod">
+                {{assign var='count' value='1'}}
+                {{foreach from=$products item='pro'}}
+                <li class="listprod">
+                    <a href="{{ url controller='Products' action='View' cate_id=$pro.cate_id id=$pro.pro_id }}" title="{{$pro.name}}"><img src="/uploads/thumb_{{$pro.pic}}" width="145" height="109" /></a>{{$pro.name}}<br/>人民币:<b>{{$pro.price}}</b>&nbsp;&nbsp;已售{{$pro.selled}}件<br/>市场零售价：<font>￥{{$pro.retail}}</font>
+                </li>
+                {{if $count++ eq 4}}
+                <li>
+                    <a href="javascript:void(0);"><img src="/themes/default/file/s.png" width="172" height="115" /></a>
+                </li>{{/if}}
+                {{ /foreach }}
+            </ul>
+            <script type="text/javascript">
+                $('#banner ul.prod li.listprod').hover(function(){
+                    $(this).addClass('hover');
+                }, function(){
+                    $(this).removeClass('hover');
+                })
+            </script>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+    <!--banner-->
+    <div class="inclub">
+        <div class="clear">
+        </div>
+        {{include file='include/bottom.inc.html'}}
+    </div>
+</body>
+</html>

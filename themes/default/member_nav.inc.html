@@ -1,0 +1,27 @@
+            <h2><a style="color: black; text-decoration: none;" href="{{url controller='Member'}}">我的个人中心</a></h2>
+            <div class="clearfix"></div>
+            <div class="main-member-left">
+                <ul class="main-member-left-box">
+                    <h4>交易管理</h4>
+                    <li {{if $smarty.get.do eq 'orderlist'}}class="member-current"{{/if}}><a href="{{ url controller='Member' action='OrderList' }}" title="已购买商品">已购买商品</a></li>
+                    <li {{if $smarty.get.do eq 'fav'}}class="member-current"{{/if}}><a href="{{ url controller='Member' action='Fav' }}" title="我的收藏">我的收藏</a></li>
+                </ul>
+                <ul class="main-member-left-box">
+                    <h4>积分优惠</h4>
+                    <li {{if $smarty.get.do eq 'coupon'}}class="member-current"{{/if}}><a href="{{ url controller='Member' action='Coupon' }}" title="我的优惠券">我的优惠</a></li>
+                    <!--<li><a href="javascript:void(0);{{ url controller='Member' action='Exchange' }}" title="兑换专区">兑换专区</a></li>-->
+                </ul>
+                <ul class="main-member-left-box">
+                    <h4>客户服务</h4>
+                    <li {{if $smarty.get.do eq 'comments'}}class="member-current"{{/if}}><a href="{{ url controller='Member' action='Comments' }}" title="评价管理">评价管理</a></li>
+                    <li {{if $smarty.get.do eq 'refund'}}class="member-current"{{/if}}><a href="{{ url controller='Member' action='Refund' }}" title="退款管理">退款管理</a></li>
+                    <!--<li><a href="javascript:void(0);#">咨询回复</a></li>-->
+                </ul>
+                <ul class="main-member-left-box">
+                    <h4>账户管理</h4>
+					{{if $smarty.session.notperf}}<li {{if $smarty.get.do eq 'qqreg'}}class="member-current"{{/if}}><a href="{{ url controller='Member' action='qqreg' }}">帐户完善</a></li>{{/if}}
+                    <li {{if $smarty.get.do eq 'info'}}class="member-current"{{/if}}><a href="{{ url controller='Member' action='Info' }}">基本信息</a></li>
+                    <li {{if $smarty.get.do eq 'address'}}class="member-current"{{/if}}><a href="{{ url controller='Member' action='Address' back='yes' }}" title="地址管理">地址管理</a></li>
+                    <li {{if $smarty.get.do eq 'pass'}}class="member-current"{{/if}}><a href="{{ url controller='Member' action='Pass' }}">密码管理</a></li>
+                </ul>
+            </div>

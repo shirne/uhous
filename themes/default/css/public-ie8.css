@@ -1,0 +1,16 @@
+#nav li.fmenu ul{
+background:url(../images/blank.gif);filter : progid:DXImageTransform.Microsoft.Gradient ( enabled=true , startColorStr=#F0000000 , endColorStr=#F0000000 );
+}
+
+#newprodlist ul li a.title{
+	background:url(../images/blank.gif);filter : progid:DXImageTransform.Microsoft.Gradient ( enabled=true , startColorStr=#CC000000 , endColorStr=#CC000000 );	
+	}
+
+#productlist ul li a.title{
+	background:url(../images/blank.gif);filter : progid:DXImageTransform.Microsoft.Gradient ( enabled=true , startColorStr=#CC000000 , endColorStr=#CC000000 );
+	}
+
+.loginpage .login,.loginpage .reg{background:url(../images/blank.gif);filter : progid:DXImageTransform.Microsoft.Gradient ( enabled=true , startColorStr=#CC000000 , endColorStr=#CC000000 );}
+
+.main-award ul.prod,.main-award div.linkwraper{
+background:none;filter:progid:DXImageTransform.Microsoft.Gradient ( enabled=true , startColorStr=#CC000000 , endColorStr=#CC000000 )}

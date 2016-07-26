@@ -1,0 +1,149 @@
+{{ include file='include/head.inc.html' }}
+<link rel="stylesheet" href="/themes/default/css/thickbox.css" type="text/css" media="screen" />
+<script type="text/javascript" charset="utf-8" src="/themes/default/js/thickbox.js"></script>
+<style type="text/css" media="screen">
+div.atips { font-weight: bold; font-size: 16px;height: 50px; line-height: 50px; width: 75%; margin: 15px 0 0 25%; }
+table.addtbl {
+    width: 940px;
+    margin:10px auto;
+    border:1px #ccc solid
+}
+table.addtbl thead tr{background:#ccc}
+table.addtbl thead th{line-height:36px;font-size:16px;text-align:left;padding-left:20px}
+table.addtbl tr.line {border-top:1px #ccc dashed}
+table.addtbl tr.line th{border-right:1px #ccc dashed;}
+table.addtbl tbody tr th{text-align:left;padding:20px;padding-right:0}
+table.addtbl tr td {
+    font-size: 14px;
+    height: 25px;
+    line-height: 25px;
+}
+table.addtbl tr td label{padding-right:10px}
+table.addtbl tr td a.edit{color:#999}
+table.addtbl tr td a.edit:hover{color:#088;text-decoration:none}
+table.addtbl tr th a{color:#999;font-weight:normal}
+table.addtbl tr th a:hover{color:#088;text-decoration:none}
+table.addtbl tr td.prod a{float:left;border:1px #666 solid;margin:10px;text-align:center;background:#666;color:#fff}
+table.addtbl tr td.prod a:hover{color:#6dd;text-decoration:none}
+
+.dialogform{height:348px;}
+</style>
+
+
+
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+		<div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+        {{ include file='cart_nav.html'}}
+        <div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+        <!--/*mycar购物车*/-->
+
+        <div class="main-mycar-dialogeare">
+
+            <form id="addrForm" action="{{ url controller='Check' action='CheckOut' new=$smarty.get.new }}" method="post" accept-charset="utf-8">
+                <input type="hidden" name="order_id" value="{{$order.order_id}}" />
+                <input type="hidden" name="ordercode" value="{{$order.ordercode}}" />
+                <table class="addtbl" border="0">
+                    <thead>
+                        <tr><th colspan="2">订单:<font color="#008888">{{$order.ordercode}}</font>&nbsp;&nbsp;&nbsp;&nbsp;总金额:<font color="red">{{$order.total}}</font></th></tr>
+                    </thead>
+                    <tbody>
+                    <tr class="line" style="border-top:0">
+                        <th width="110">商品清单</th>
+                        <td class="prod">
+                            {{section loop=$products name='row'}}
+                            
+                            <a href="{{url controller='products' action='view' id=$products[row].pro_id}}" target="_blank"><img src="/uploads/thumb_{{$products[row].product.pic}}" /><br /><span>{{$products[row].product.name}}(<font color="#33dddd">{{$products[row].num}}</font>件)</span></a>
+                            {{sectionelse}}
+                            对不起，该订单已经没有商品了，<a class="edit" href="{{url controller='member' action='cancelorder' order_id=$order.order_id}}">[移除订单]</a>
+                            {{/section}}
+                        </td>
+                    </tr>
+                    <tr class="line">
+                        <th rowspan="{{$address|@count}}" width="110">收货地址<br /><a class="edit" href="#" onclick="addAddress();return false">[添加]</a></th>
+                    {{ section loop=$address name='addressrow' }}
+                    {{if !$smarty.section.addressrow.first}}</tr><tr>{{/if}}
+                    
+                        <td>
+                            <label><input id="addId" type="radio" {{ if ($address[addressrow].selected eq 1)  }}checked="checked" {{ /if }} name="add_id" value="{{$address[addressrow].add_id}}" />
+                        
+                            {{$address[addressrow].address.province.name}} {{$address[addressrow].address.city.name}} {{$address[addressrow].address.division.name}} {{$address[addressrow].address.address}}&nbsp;&nbsp;(收货人：{{$address[addressrow].username}})</label>
+                            <a class="edit" href="#" onclick="addAddress({{$address[addressrow].add_id}});return false;" title="修改">修改</a>
+                        </td>
+                    </tr>
+                    {{sectionelse}}
+                    
+                        <td>您还没有添加收货地址</td>
+                    </tr>
+                    {{ /section }}
+                    <tr class="line">
+                        <th rowspan="{{$coupon|@count}}">优惠券<br /><a class="edit" href="#" onclick="$('input[name=coupon]').attr('checked',false);return false">[不使用]</a><br /><a class="edit" href="#">[如何获取?]</a></th>
+                    
+                    {{ section loop=$coupon name='couponrow' }}
+                    {{if !$smarty.section.couponrow.first}}</tr><tr>{{/if}}
+                    
+                        <td>
+                            <label><input type="radio" name="coupon" value="{{$coupon[couponrow].id}}" {{if $coupon[couponrow].selected eq 1}} checked="checked"{{/if}} />{{$coupon[couponrow].coupon.name}}&nbsp;{{$coupon[couponrow].coupon.value}}&nbsp;{{$coupon[couponrow].invaluetime|date_format:'%Y-%m-%d'}}&nbsp;{{$coupon[couponrow].coupon.minprice}}</label>
+                        </td>
+                    </tr>
+                    {{sectionelse}}
+                    
+                        <td>没有可用的优惠券</td>
+                    </tr>
+                    {{ /section }}
+                    </tbody>
+                    
+                </table>
+            </form>
+
+            <div class="fr main-mycar-btn"><a id="goNext" class="button" href="javascript:void(0);">转到下一步 &raquo;</a></div>
+
+        </div>
+
+        <div class="clear"></div>
+        <div style="margin-top:20px;"><img src="/themes/default/images/home_11.jpg" width="392" height="37" /></div>
+        <!--/*end mycar购物车*/-->
+        <div id="dialog" class="dialog" style="display: none;">
+            <div class="dialogform">  
+             <iframe name="address" id="addressFrame" width="550" height="350" frameborder=0 style="overflow:hidden"></iframe>
+             </div>
+        </div>
+        <input alt="#TB_inline?height=400&width=600&inlineId=dialog" id="addressActive" class="thickbox hiden" type="button" value="Show" /> 
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+jQuery(function($) {
+    $("#goNext").click(function() {
+        if($("input#addId:checked").val()) {
+            $('#addrForm').submit();
+        } else {
+            $.fn.Tips({text:"必须选择一项收货地址，或新增收货地址！",type:'warn'});
+        }
+    });
+});
+
+function addAddress(id){
+    url='{{url controller="check" action="ModifyAddress" id="ID"}}';
+    $('#addressFrame')[0].src=url.replace('ID',id||'');
+    $('#addressActive').trigger('click');
+}
+</script>
+</body>
+</html> 

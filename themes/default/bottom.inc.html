@@ -1,0 +1,92 @@
+        <!--/*help帮助中心*/-->
+        <div class="helpcenter">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr >
+                    <td class="helpcenter-title" width="15%">客服中心</td>
+                    <td colspan="6" rowspan="4" align="center" valign="top">
+                        <!--//内容-->
+                        <table style="border-left:1px solid #999; margin-right:10px; border-right:1px solid #999;" width="98%" border="0" cellspacing="0" cellpadding="0">
+                            <tr class="helpcenter-title">
+                                <td width="12%">购物指南</td>
+                                <td width="22%">支付方式</td>
+                                <td width="19%">配送办法</td>
+                                <td width="19%">售后服务</td>
+                                <td width="13%">客服互动</td>
+                                <td width="13%">购物条款</td>
+                            </tr>
+                            <tr>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Guide' }}#guide" title="购物流程">购物流程</a></td>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Payment' }}#onlinePay" title="网银在线支付方式">网银在线支付方式</a></td>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Delivery' }}#delivery" title="配送方式">配送方式</a></td>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Service' }}#tuihuo" title="退换货办理流程">退换货办理流程</a></td>
+                                <td><a target="_blank" href="#">在线客服</a></td>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Provision' }}#definition" title="免责声明">免责声明</a></td>
+                            </tr>
+                            <tr>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Guide' }}#question" title="常见问题">常见问题</a></td>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Payment' }}#platformPay" title="支付平台方式">支付平台方式</a></td>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Delivery' }}#deliveryTime" title="配送时间及费用">配送时间及费用</a></td>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Service' }}#weixiu" title="维修补件说明">维修补件说明</a></td>
+                                <td><a target="_blank" href="#">订单查询</a></td>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Provision' }}#serect" title="隐私保护">隐私保护</a></td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Payment' }}#counterPay" title="银行柜台汇款">银行柜台汇款</a></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td><a target="_blank" href="#">优惠券</a></td>
+                                <td><a target="_blank" href="{{ url controller='Information' action='Provision' }}#register" title="注册协议">注册协议</a></td>
+                            </tr>
+                            
+                        </table>
+                        <!--内容//-->
+                    </td>
+                    <td class="helpcenter-title" width="25%"> 免费机会</td>
+                </tr>
+                <tr>
+                    <td>服务时间:24小时</td>
+                    <td style="background:url(themes/default/images/sell.jpg) 140px 100px no-repeat;" rowspan="3" valign="top"> 输入你的电子邮件，免费领取200元的<br />
+                        家具优惠券，同时你会看到我们为您独<br />
+                        家提供的高品质超价值的产品。
+                        <form action="{{ url controller='Member' action='SendInvitationFromSys' }}" method="post" class="helpcenter-email">
+                            <label><input class="helpcenter-text" id="txt" onfocus="clear_form('txt')"  type="text" name='email' value="输入您的E-mail" /></label><input class="helpcenter-sumbit" name="" type="submit" value=">>" /><br />
+                            请输入一个有效的电子邮件地址，<br />
+                            例如johndoe@uhous.com<br /><br />
+                        </form>
+     <!--分享链接-->
+<div>
+<!-- Baidu Button BEGIN -->
+    <div id="bdshare" class="bdshare_b" style="line-height: 12px;"><img src="/http://bdimg.share.baidu.com/static/images/type-button-1.jpg" />
+	</div>
+<script type="text/javascript" id="bdshare_js" data="type=button&amp;uid=45627" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+	document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?t=" + new Date().getHours();
+</script>
+<!-- Baidu Button END -->
+</div>
+ <!--end 分享链接-->                    
+                    </td>
+                </tr>
+                <tr>
+                    <td><a target="_blank" href="{{ url controller='Information' action='About' }}" title="关于我们">关于我们</a></td>
+                </tr>
+                <tr>
+                    <td height="160" valign="top" class="helpcenter-call">服务热线：<br />
+                        400-0760-163</td>
+                </tr>
+            </table>
+            <div class="clear"></div>
+
+            <!--<ul class="helpcenter-sort">
+                <li><img src="/themes/default/images/home_18.jpg" width="168" height="57" /></li>
+                <li><img src="/themes/default/images/home_20.jpg" width="168" height="57" /></li>
+                <li><img src="/themes/default/images/home_22.jpg" width="168" height="57" /></li>
+            </ul>-->
+
+        </div>
+        <hr class="hr" />
+        <!--/*end help帮助中心*/-->
+
+        {{include file='include/foot.inc.html'}}

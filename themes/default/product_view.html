@@ -1,0 +1,313 @@
+{{ include file='include/head.inc.html' }}
+
+<!–-[if lte IE 7]>
+<script src="/themes/default/js/ie.js"></script>
+<script>
+    DD_belatedPNG.fix('.main-prodview-price');
+</script>
+<![endif]-–>
+<script type="text/javascript" src="/themes/default/js/jquery.lightbox.min.js"></script>
+<link rel="stylesheet" href="/themes/default/css/lightbox.css" type="text/css" media="all" />
+<script type="text/javascript">
+$(function(){
+	$('.lightbox').lightbox({
+		fileLoadingImage: '/themes/default/images/loading.gif',
+		fileBottomNavCloseImage: '/themes/default/images/closelabel.gif',
+		imageClickClose:false,
+		resizeSpeed:280,
+		widthCurrent:document.documentElement.clientWidth * .8,
+		heightCurrent:document.documentElement.clientHeight * .8,
+		fixedSize:true,
+		onresize:function(){
+			this.widthCurrent=document.documentElement.clientWidth * .8;
+			this.heightCurrent=document.documentElement.clientHeight * .8;
+		},
+		strings: {
+			help: ' \u2190 / P - previous image\u00a0\u00a0\u00a0\u00a0\u2192 / N - next image\u00a0\u00a0\u00a0\u00a0ESC / X - close image gallery',
+			prevLinkTitle: '查看上一张图片',
+			nextLinkTitle: '查看下一张图片',
+			prevLinkText:  '&laquo; 上一张',
+			nextLinkText:  '下一张 &raquo;',
+			closeTitle: '关闭图册',
+			image: '细节图 ',
+			of: ' / ',
+			download: '下载'
+		}
+	});
+});
+</script>
+
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+		<div id="navwraper">
+        {{ include file='include/nav.inc.html' }}      
+
+        <div class="clear"></div>
+		<div id="location">
+        {{ webcontrol type='Nav' column='products' }}
+
+        </div>
+		</div>
+        <!--/*end menu*/-->
+
+        <!--/*gaincar产品*/-->
+        <div class="main-prodview">
+            <div class="main-prodview-img"><img id="picshow" src="/uploads/{{$row.thumb_pic}}" width="958" height="500" /></div>
+            <div class="main-prodview-price">
+                <h2 style="font-size: 26px; margin-bottom: 7px;">人民币：{{$row.price}}&nbsp;{{ if $row.discount }}<span style="color: red; font-size: 18px;">( {{$row.discount}}折 )</span>{{ /if }}</h2>
+                <h4>市场价为：<font style="text-decoration:line-through;">￥{{$row.retail}}&nbsp;</font>&nbsp;已售出<b>{{$row.selled}}</b>件</h4>
+                <div class="main-prodview-btn">
+                    <a id="addCarts" href="javascript:void(0);" rel="{{ url controller='Member' action='AddCar' pro_id=$row.pro_id }}" title="现在购买">现在购买</a>
+                    <a class="fr" target="_blank" href="{{ url controller='Member' action='Carts' }}" id="check" style="display: none; font-size:14px; margin-top: 3px; font-weight: normal;" >查看&raquo;</a>
+                </div>
+            </div>
+
+            {{ if $row.delivery_cost eq 0 }}
+            <!--包邮-->
+            <div class="main-prodview-post"></div>
+            {{ /if }}
+
+        </div>
+        <div class="clear"></div> 
+
+
+
+        <ul class="prodview-photo">
+            {{foreach from=$row.photos item='photo'}}
+			<li>
+            <a href="/uploads/{{$photo.pic}}" class="lightbox" rel="group" title="{{$photo.name}}"><img src="/uploads/thumb_{{$photo.pic}}" alt="{{$photo.name}}" width="90" height="50" /></a>
+            </li>{{ /foreach }}
+        </ul>
+        <div class="clear"></div>
+
+        <!--内容详情-->
+        <div class="prodview-detail">
+        	<div class="left" id="prod-introduct">
+        		{{foreach from=$row.params.intro item='intro'}}
+				<dl>
+					<dt class="right"><a class="lightbox" href="/uploads/{{$intro.pic}}" rel="cont" title="{{$intro.title}}"><img src="{{if $intro.pic}}/uploads/thumb_{{$intro.pic}}{{else}}/themes/default/pic/nopic.jpg{{/if}}" alt="" /></a></dt>
+					<dt class="title">{{$intro.title}}</dt>
+					<dd class="info">{{$intro.content}}</dd>
+				</dl>
+				{{/foreach}}
+        	</div>
+			<script type="text/javascript">
+				$('#prod-introduct dl:last').addClass('last');
+			</script>
+			<div class="right">
+				<!-- 企业介绍 -->
+				<div class="brand">
+					<a href="javascript:void(0)" class="left"><img src="/uploads/{{$row.brand.logo}}" width="70" height="70" alt="" /></a>
+					<h2>企业介绍</h2>
+					<div class="info">{{$row.brand.memo.content}}</div>
+					<div class="clear"></div>
+					<ul>
+						<li>
+							<h3>交货</h3>
+							<div>请您相信我们，好质量的产品设计及生产是需要时间，包括物流的配送，有充足的时间，可以带给您更多有价值的东西，尤胜价格值得您的等待。</div>
+						</li>
+						<li>
+							<h3>订单查询</h3>
+							<div>您的订单如果发送，我们会及时通知您，运送中若有任何变动，您可随时与我们联系。</div>
+						</li>
+						<li>
+							<h3>免费退换货</h3>
+							<div>您可根据我们的退货和退款的条款进行处理。</div>
+						</li>
+					</ul>
+				</div>
+				
+				<dl>
+					<dt>产品尺寸</dt>
+					{{foreach from=$row.params.size item='size'}}
+					<dd><span>{{$size.title}}</span>{{$size.content}}</dd>
+					{{/foreach}}
+				</dl>
+				<dl>
+					<dt>产品详细信息</dt>
+					{{foreach from=$row.params.memo item='memo'}}
+					<dd><span>{{$memo.title}}</span>{{$memo.content}}</dd>
+					{{/foreach}}
+				</dl>
+			</div>
+			<div class="clear"></div>
+        </div>
+
+        <div class="prodview-reply">
+            <ul>
+                <li><a class="button" href="{{ url controller='Products' action='AddComment' id=$row.pro_id }}" title="购买评论">购买评论 &raquo;</a></li>
+                <li><a class="button" href="{{ url controller='Products' action='AddComment' id=$row.pro_id }}" title="用户评分">用户评分 &raquo;</a></li>
+                <li style="width:130px;padding-left:30px">
+                    {{ section name='loop' loop=5 }}
+                        {{ if $smarty.section.loop.index lt $row.points }}
+                            <span class="star"></span>
+                        {{ else }}
+                            <span class="stars"></span>
+                        {{ /if }}
+                    {{ /section }}
+                </li>
+                <li><a class="button" href="{{url controller='Member' action='Invite'}}">分享给好友 &raquo;</a></li>
+                <li><a id="addFav" class="button" href="javascript:void(0);" rel="{{ url controller='Member' action='AddFav' pro_id=$row.pro_id }}" title="加入收藏">加入收藏 &raquo;</a></li>
+            </ul>
+
+            {{if $comments}}
+
+            {{ foreach from=$comments item='com' }}
+            <div class="prodview-reply-txt">
+                <p class="star"><span>评分：</span>{{ section name='loop' loop=5 }}
+                        {{ if $smarty.section.loop.index lt $com.points }}
+                            <span class="star"></span>
+                        {{ else }}
+                            <span class="stars"></span>
+                        {{ /if }}
+                    {{ /section }}</p>
+                <p class="content">{{$com.memo}}</p>
+                <p class="info"><span>{{$com.member.username}} {{$com.created|date_format:'%Y/%m/%d %H:%M:%S'}}</span></p>
+                
+            </div>
+            {{ /foreach }}
+
+            {{ if $pager.pageCount gt 0 }}
+            <div class="prodview-reply-btn"><a class="btn-ahover" href="{{ url controller='Products' action='MoreComments'  id=$smarty.get.id}}">更多精彩评论 &raquo;</a></div>
+            {{ /if }}
+            {{else}}
+            <div class="prodview-reply-txt tc">
+                <p>暂时没有任何评论，<a style="color: red;" href="{{ url controller='Products' action='AddComment' id=$row.pro_id }}">我来点评!</a></p>
+            </div>
+            {{/if}}
+
+            <div class="clear"></div>
+        </div>
+
+        <div class="prodview-bottom clearfix" style="*padding-bottom:0">
+        	<!-- 相关产品 -->
+            <div class="left">
+            	<h3>同类推荐</h3>
+                <ul>
+				{{foreach from=$related item='rel'}}
+				<li>
+					<p><a href="{{url controller='products' action='view' id=$rel.pro_id}}"><img src="/uploads/thumb_{{$rel.pic}}" alt="{{$rel.name}}" /></a></p>
+					<p class="title"><a href="{{url controller='products' action='view' id=$rel.pro_id}}">{{$rel.name}}</a></p>
+					<p class="price">人民币：{{$rel.price}}</p>
+					<p class="retail">市场零售价：<del>￥{{$rel.retail}}</del></p>
+				</li>
+				{{/foreach}}
+				</ul>
+            </div>
+            <div class="right">
+            	<h3>您可能还喜欢的</h3>
+                <img src="/uploads/{{$row.brand.minpic}}" width="250" height="150" />
+                <h3>{{ $row.brand.name }}所有系列</h3>
+                <div><a href="{{ url controller='Products' action='Brand' id=$row.brand.brand_id }}" class="button">查看所有>></a></div>
+            </div>
+			<div class="clear"></div>
+        </div>
+
+        <!--/*end gaincar产品*/-->
+
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+jQuery(function($) {
+    $("#addFav").click(function() {
+        var link = $(this).attr('rel');
+        $.post(
+            link,
+            {
+                pro_id : {{ $row.pro_id }}
+            },
+            function(data) {
+                if(data.success)
+                {
+					$.fn.Tips({text:'已加入收藏',type:'okay'});
+                    $("#addFav").text("已加入收藏");
+                } else {
+                    if(confirm("您还没有登陆，无法加入收藏，为您转到登陆页面？")) {
+                        window.location.href = "{{ url controller='Member' action='Login' }}";
+                    }
+                }
+            },
+            'json'
+        );
+    });
+
+    $("#addCarts").click(function() {
+        var url = $(this).attr('rel');
+        $.post(
+            url,
+            {
+                pro_id : {{$row.pro_id}},
+                color : $("ul#color li[class='current']").attr('rel'),
+                size : $("ul#size li[class='current']").attr('rel')
+            },
+            function(data) {
+
+                if(data.success) {
+
+                    $("#addCarts").fadeOut("slow", function() { $("#addCarts").text("已加入购物车！"); });
+                    $("#addCarts").fadeIn("slow", function() { $("#check").fadeIn(); });
+                }
+            
+            },
+            'json'
+        );
+
+    });
+
+    /*
+    var points = "{{$row.points}}";
+    if(points) { points = parseInt(points) } else { points =0; } 
+
+    $('#star').css('width', '300px');
+    $('#star').raty({
+        start: points,
+        readOnly: true,
+    });
+    */
+
+    $("ul#color li a").each(function() {
+        $(this).click(function() {
+            $("#picshow").attr('src', '/uploads/'+$(this).attr('rel'));    
+        });        
+    });
+
+    $("ul#color li").each(function() {
+        $(this).click(function() {
+            $("ul#color li").each(function() {
+                $(this).removeClass('current');
+            });
+
+            $(this).addClass('current');
+        });
+    });
+
+    $("ul#size li").each(function() {
+        $(this).click(function() {
+            $("ul#size li").each(function() {
+                $(this).removeClass('current');
+            });
+
+            $(this).addClass('current');
+        });
+    });
+
+    $("ul#size li:nth-child(1)").addClass('current');
+});
+</script>
+
+</body>
+</html> 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="/wap/css/public.css" />
+        <title>{{$title}}</title>
+		<script type="text/javascript" src="/wap/js/jquery-1.4.1.min.js"></script>
+    </head>
+    <body>
+    	<!-- 顶部 -->
+        <div id="top">
+            <a href="/" class="logo"><img src="/wap/images/home.jpg" alt="有好事家居商城" /></a>
+			<ul>
+				<li><a href="{{url controller='member' action='login'}}">登陆</a></li>
+				<li><a href="{{url controller='shopcart'}}">购物车</a></li>
+				<li><a href="{{url controller='infomation'}}">帮助</a></li>
+			</ul>
+        </div>
+		<!-- 顶部 END -->
+		
+		<!-- 导航 -->
+        <div id="nav">
+        	<ul>
+        		<li><a href="{{url}}">首页</a></li>
+				<li><a href="{{url controller='products'}}">商品分类</a></li>
+				<li><a href="{{url controller='products' action='brand'}}">品牌</a></li>
+				<li><a href="{{url controller='download'}}">客户端</a></li>
+        	</ul>
+        </div>
+		<script type="text/javascript">
+			var pageindex=0;
+			{{if $smarty.get.column=='products'}}
+			pageindex=1;
+			{{if $smarty.get.do=='brand'}}
+			pageindex=2;
+			{{/if}}
+			{{/if}}
+			{{if $smarty.get.column=='download'}}
+			pageindex=3;
+			{{/if}}
+			document.getElementById('nav').getElementsByTagName('li')[pageindex].className='active';
+		</script>
+		<!-- 导航 END -->

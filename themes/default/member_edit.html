@@ -1,0 +1,376 @@
+{{ include file='include/head.inc.html' }}
+<style type="text/css" media="screen">
+            .warning,
+            .checkok { display: none; }
+                
+</style>
+<link type="text/css" rel="stylesheet" href="/themes/default/css/icalendar.css" />
+</head>
+<body>
+    <div class="inclub">
+        <!--/*head*/-->{{ include file='include/top.inc.html' }}<!--/*end head*/-->
+		<!--/*menu*/-->
+		<div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+        </div>
+        <!--/*end menu*/--><!--/*gaincar个人中心*/-->
+        <div class="main-member clearfix">
+            {{include file='member_nav.inc.html'}}
+            <div class="main-member-right">
+                <h3>基本信息修改</h3>
+                <form class="main-personmsg" action="{{ url controller='Member' action='SaveInfo' }}" method="post">
+                    <div class="line">
+                        <label>
+                            <span><strong>*</strong>邮箱地址：</span>
+                            <input  class="text" disabled type="text" value="{{$memberInfo.email}}" />
+                            <div id="email_w" class="warning">
+                                <p>
+                                </p>
+                            </div>
+                            <div id="email_ok" class="checkok">
+                                <img src="/themes/default/pic/ok.png" width="23" height="18" />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span><strong>*</strong>真实姓名：</span>
+                            <input  class="text" onclick="$('#realname_w').hide()"  id="realname" name="realname" type="text" tabindex="1" value="{{$memberInfo.realname}}" />
+                            <div id="realname_w" class="warning">
+                                <p>
+                                </p>
+                            </div>
+                            <div id="realname_ok" class="checkok">
+                                <img src="/themes/default/pic/ok.png" width="23" height="18" />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span><strong>*</strong>出生日期： </span>
+                            <input onclick="$('#date_w').hide()"  id="date" class="text calendar" name="date" type="text" tabindex="1" value="{{$memberInfo.date}}" />
+                            <div id="date_w" class="warning">
+                                <p>
+                                </p>
+                            </div>
+                            <div id="date_ok" class="checkok">
+                                <img src="/themes/default/pic/ok.png" width="23" height="18" />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="line">
+                        
+                            <span><strong>*</strong>性别：</span>
+                            <label class="half"><input id="radio" {{if $memberInfo.sex  eq 1}}checked="checked"{{/if}}  value="1" type="radio" name="sex" />男 </label>
+                           <label class="half"> <input id="radio2" {{if $memberInfo.sex  eq 2}}checked="checked"{{/if}}  value="2" type="radio" name="sex" />女
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span><strong>*</strong>证件类型：</span>
+                            <select id="select" name="select">
+                                <option selected="selected">身份证</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span><strong>*</strong>证件号：</span>
+                            <input  class="text" onclick="$('#passport_w').hide()"  id="passport" type="text" name="idnum" value="{{$memberInfo.idnum}}" />
+                            <div id="passport_w" class="warning">
+                                <p>
+                                </p>
+                            </div>
+                            <div id="passport_ok" class="checkok">
+                                <img src="/themes/default/pic/ok.png" width="23" height="18" />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span>会员卡：</span>
+                            <input  class="text"  id="member" type="text" name="textfield5" />
+                            <div class="warning">
+                                <p>
+                                    请选择您的会员卡类型，关准确填写卡号
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span><strong>*</strong>手机：</span>
+                            <input  class="text" onclick="$('#passport_w').hide()"  id="mobile" type="text" name="params[phone]" value="{{$memberInfo.params.phone}}" />
+                            <div id="mobile_w" class="warning">
+                                <p>
+                                </p>
+                            </div>
+                            <div id="mobile_ok" class="checkok">
+                                <img src="/themes/default/pic/ok.png" width="23" height="18" />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span>固定电话：</span>
+                            <input  class="text"  id="call" type="text" name="params[tel]" value="{{$memberInfo.params.tel}}" />
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span>传真：</span>
+                            <input  class="text"  id="fax" type="text" name="params[fax]" value="{{$memberInfo.params.fax}}" />
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span>QQ：</span>
+                            <input  class="text"  id="qq" type="text" name="params[qq]" value="{{$memberInfo.params.qq}}" />
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span>MSN：</span>
+                            <input  class="text"  id="msn" type="text" name="params[msn]" value="{{$memberInfo.params.msn}}" />
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label for="no">
+                            <span>所在城市:</span>
+                            {{ webcontrol type='Area' label='no' prov_id=$address.address.province.id city_id=$address.address.city.id}}
+                            <select onchange="selectArea(this.value, 'division')" id="city" name="city" tabindex="6">
+                                <option value="0">-市区-</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span>详细地址：</span>
+                            <input  class="text"  id="ad" type="text" name="address" value="{{$memberInfo.address}}" style="width:450px;"/>
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label>
+                            <span>邮政编码：</span>
+                            <input  class="text"  id="post" type="text" name="params[post]" value="{{$memberInfo.params.post}}" />
+                        </label>
+                    </div><input type="hidden" name="col_key" value="{{$memberInfo.col_key}}" /><input type="hidden" name="lang" value="{{$memberInfo.lang}}" /><input type="hidden" name="member_id" value="{{$memberInfo.member_id}}" /><input type="hidden" name="username" value="{{$memberInfo.username}}" /><input id="button3" class="button" style="margin-left:160px; border:0;color:#fff;font-size:14px; cursor:pointer;" value="保存基本信息" type="submit" name="submit" />
+                </form>
+            </div>
+        </div><!--/*end gaincar个人中心*/-->
+        <!--/*help帮助中心*/-->
+        <div class="clear">
+        </div>
+        {{ include file='include/bottom.inc.html' }}
+    </div>
+    <script type="text/javascript" src="/themes/default/js/icalendar.js">
+    </script>
+    <script type="text/javascript" charset="utf-8">
+    jQuery('.calendar').icalendar();
+    jQuery(function($) {
+    
+        var can = true;
+    
+        $("#realname").focusout(function() {
+            if($(this).val())
+            {
+                $("#realname_w").hide();
+                $("#realname_ok").show();
+            } else {
+                $("#realname_ok").hide();
+                $("#realname_w p").text("真实姓名必须填写！");
+                $("#realname_w").show();
+                can =  false;
+            }
+        });
+    
+        $("#date").focusout(function() {
+            if($(this).val())
+            {
+                $("#date_w").hide();
+                $("#date_ok").show();
+            } else {
+                $("#date_ok").hide();
+                $("#date_w p").text("出生日期必须填写！");
+                $("#date_w").show();
+                can =  false;
+            }
+        });
+    
+        $("#email").focusout(function() {
+    
+            if($(this).val()){
+    
+                cEmail = $(this).val();
+                if(cEmail.match(/[\w-]+@{1}[\w-]+\.{1}\w{2,4}(\.{0,1}\w{2}){0,1}/ig)!=cEmail){
+                    $("#email_ok").hide();
+                    $("#email_w p").text("出邮箱格式不正确!");
+                    $("#email_w").show();
+                    can =  false;
+                } else {
+                    $.post(
+    					'{{url controller="Member" do="AjaxCheckMailExceptID"}}',
+    					{'email':this.value,'id':{{$user.id}}},
+    					function(data){
+    						if(data.hasIt){
+    							$('#email_w p').text("邮箱已被占用");
+    							$('#email_w').attr('style', 'display:inline-block;');
+    							$("#email_ok").hide();
+    							can = false;
+    						}else{
+    							can = true;
+    							$("#email_ok").show();
+    							$('#email_w').hide();
+    						}
+    					},
+    					'json'
+    				);
+                }
+    
+            } else {
+                $("#email_ok").hide();
+                $("#email_w p").text("邮箱必须填写!");
+                $("#email_w").show();
+                can =  false;
+            }
+        });
+    
+        $("#passport").focusout(function() {
+            if($(this).val()) {
+    			$(this).val($(this).val().toLowerCase());
+                aler = checkId($("#passport").val());
+    			
+                switch(aler)
+                {
+                    case 1: 
+                        $("#passport_ok").hide();
+                        $("#passport_w p").text("身份证号共有 15 码或18位!");
+                        $("#passport_w").show();
+                        can =  false;
+                        break;
+                    case 2:
+                        $("#passport_ok").hide();
+                        $("#passport_w p").text("身份证除最后一位外，必须为数字!");
+                        $("#passport_w").show();
+                        can =  false;
+                        break;
+                    case 3:
+                        $("#passport_ok").hide();
+                        $("#passport_w p").text("身份证输入错误！");
+                        $("#passport_w").show();
+                        can =  false;
+                        break;
+                    case 4:
+                        $("#passport_ok").hide();
+                        $("#passport_w p").text("身份证输入错误！");
+                        $("#passport_w").show();
+                        can =  false;
+                        break;
+                    default:
+                        $("#passport_ok").show();
+                        $("#passport_w").hide();
+                        break;
+                }
+            } else {
+                $("#passport_ok").hide();
+                $("#passport_w p").text("证件号码必须填写，您领取奖品、忘记密码等的时候，都需要证件号码!");
+                $("#passport_w").show();
+                can =  false;
+            }
+        });
+    
+        $("#mobile").focusout(function() {
+            if($(this).val())
+            {
+                if(!isMobile($("#mobile").val())){
+                    $("#mobile_ok").hide();
+                    $("#mobile_w p").text("手机格式不正确");
+                    $("#mobile_w").show();
+                    can =  false;
+                } else {
+                    $("#mobile_w").hide();
+                    $("#mobile_ok").show();
+                }
+            } else {
+                $("#mobile_ok").hide();
+                $("#mobile_w p").text("手机号码必须填写！");
+                $("#mobile_w").show();
+                can =  false;
+            }
+        });
+    
+        console.log(can);
+    
+        $("#button3").click(function() { return can; });
+    });   
+    
+    function checkId(pId){
+    	//检查身份证号码 Go_Rush(阿舜) from http://ashun.cnblogs.com
+    
+        var arrVerifyCode = [1,0,"x",9,8,7,6,5,4,3,2];
+        var Wi = [7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2];
+        var Checker = [1,9,8,7,6,5,4,3,2,1,1];
+    
+        if(pId.length != 15 && pId.length != 18)    return 1;
+    
+        var Ai=pId.length==18 ?  pId.substring(0,17)   :   pId.slice(0,6)+"19"+pId.slice(6,16);
+    
+        if (!/^\d+$/.test(Ai))  return 2;
+    
+        var yyyy=Ai.slice(6,10) ,  mm=Ai.slice(10,12)-1  ,  dd=Ai.slice(12,14);
+    
+        var d=new Date(yyyy,mm,dd) ,  now=new Date();
+         var year=d.getFullYear() ,  mon=d.getMonth() , day=d.getDate();
+    
+        if (year!=yyyy || mon!=mm || day!=dd || d>now || year<1940) return 3;
+    
+        for(var i=0,ret=0;i<17;i++)  ret+=Ai.charAt(i)*Wi[i];    
+        Ai+=arrVerifyCode[ret %=11];     
+    
+        return pId.length ==18 && pId != Ai?4:Ai;        
+    };
+    
+    function isMobile(value)
+    {
+        if(/^13\d{9}$/g.test(value)||(/^15[0-35-9]\d{8}$/g.test(value))|| (/^18[05-9]\d{8}$/g.test(value))) {
+            return true; 
+        } else {
+            return false; 
+        }
+    }
+    
+    
+    /* 选择 */
+    var selectArea = function(provId, displayId)
+    {
+        $.post(
+            "{{ url controller='Check' action='AjaxSelectArea' }}",
+            {
+                prov_id : provId,
+                disp : displayId
+            },
+            function(data) {
+    
+                if(data){
+    
+                    $("#"+displayId).html(data);
+    
+                } else {
+    
+                    $("#"+displayId).html("<option value='0'>- 无 -</a>");
+                }
+    
+                if(displayId == 'city') {
+    
+                    selectArea($("#city").val(), 'division', current);
+    
+                }
+            }
+        );
+    }
+                                        
+                                            
+    </script>
+</body>
+</html>

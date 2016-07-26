@@ -1,0 +1,306 @@
+{{ include file='include/head.inc.html' }}
+<link rel="stylesheet" href="/themes/default/css/thickbox.css" type="text/css" media="screen" />
+<script type="text/javascript" charset="utf-8" src="/themes/default/js/thickbox.js"></script>
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+		<div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+        {{include file='cart_nav.html'}}
+        <div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+        <!--/*mycar购物车*/-->
+
+        <div class="main-mycar-dialogeare">
+        {{ if $rows }}
+        <form id="cartsForm" method="post" action="{{ url controller='Check' action='SelectDelivery' }}" >
+            <table class="main-mycar" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr class="main-mycar-title">
+                        <td width="57">删除</td>
+                        <td class="tc" width="401">货品名称</td>
+                        <td width="110">单价</td>
+                        <td width="142">数量</td>
+                        <td width="138" align="right">运费</td>
+                        <td width="142" align="right">小计</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ foreach from=$rows item='row' }}
+                    <tr class="main-mycar-main">
+                        <td><a href="{{ url controller='Member' action='CartRemove' id=$row.products.pro_id }}"><img src="/themes/default/pic/Stop.png" width="24" height="24" /></a></td>
+                    <td class="main-mycar-name"><img style="padding-right: 15px;" src="/uploads/thumb_{{$row.products.pic}}" alt="{{$row.products.name}}" width="50" height="50" /><p><b><a href="{{url controller='Products' cate_id=$row.products.cate_id id=$row.products.pro_id}}" target="_blank" style="color: #EB2E6F;">{{$row.products.name}}</a></b></p>
+                        </td>
+                        <td id="price{{$row.products.pro_id}}" rel="{{$row.products.price}}">
+                            ￥{{$row.products.price}}元<br />
+                            <span style="font-size: 12px; text-decoration: line-through;">市场价：￥<span id="retail{{$row.products.pro_id}}">{{$row.products.retail}}</span></span>
+                        </td>
+                        <td>
+                            <img class="cicons" src="/themes/default/images/sub.gif" onClick="sub('num'+{{$row.products.pro_id}}, {{$row.products.pro_id}});" />
+                            <input id="num{{$row.products.pro_id}}" rel="{{$row.products.pro_id}}" class="tc vinput" type="text" value="{{$row.products.num}}" class="text text-amount" size="5" data-max="115" autocomplete="off"/>
+                            <img class="cicons" src="/themes/default/images/add.gif" onClick="add('num'+{{$row.products.pro_id}}, {{$row.products.pro_id}});" />
+                        </td>
+                        <td align="right">￥<span class="pp">{{$row.products.delivery_cost}}</span>元</td>
+                        <td align="right">
+                            ￥<span class="tt" rel="{{$row.products.pro_id}}" id="total{{$row.products.pro_id}}">{{$row.products.price}}</span>元
+                            <input type="hidden" class="rr" id="retailtotal{{$row.products.pro_id}}" rel="{{$row.products.retail-$row.products.price}}" value="{{$row.products.retail-$row.products.price}}">
+                        </td>
+                    </tr>
+                    {{ /foreach }}
+                </tbody>
+            </table>
+
+
+            <!--/**结账**/-->
+            <table class="main-mycar-total" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td width="67%">&nbsp;</td>
+                        <td width="14%" align="right">小计</td>
+                        <td width="19%" align="right">￥<span id="checkout"></span>元</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td align="right">邮寄费</td>
+                        <td align="right">￥<span id="postbill"></span>元</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td align="right"><b>总计</b></td>
+                        <td align="right">
+                            <b>￥<span id="allcheckout"></span>元</b>
+                            <input type="hidden" name="total" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="2" align="right">比市场为您节省了￥<span id="savemoney"></span>元</td>
+                        </tr>
+                </tbody>
+            </table>
+        </form>
+            <!--/**end 结账**/-->
+
+
+
+            <div id="dialog" class="dialog" style="display: none;">        
+                <div class="dialogform">  
+                    <div class="dialogform-title fl">会员登陆</div>
+                    <div id="login_tips" class="fl hiden" style="margin-left: 10px;">
+                        <span class="icons-stop error-tips">用户名或密码错误！</span>
+                    </div>
+                    <div class="clear"><!--Clear Float--></div>
+                    <form id="loginForm" name="loginForm" action="{{ url controller='Member' action='Tips' }}" method="post">
+                        <label><span>用户名：</span><input type="text" id="username" name="username" size="20" /></label>
+                        <label><span>密　码：</span><input type="password" id="pwd" name="password" size="20" /></label>
+                        <input type="hidden" name="title" value="系统信息" />
+                        <input type="hidden" name="description" value="登录成功" />
+                        <input type="hidden" name="url" value="{{ url controller='Member' action='Carts'}}" />
+                        <div class="clear"></div>                  
+                        <a id="loginBtn" class="sub" href="javascript:void(0);">登录 &raquo;</a>
+                        <a class="sub" href="{{ url controller='Member' action='Login' carts='no' }}#reg" title="注册">注  册 &raquo;</a><br /><a href="{{url controller='Member' action='ForgetPass'}}">忘记密码</a>
+                    </form>        
+                </div>
+                <!--<img src="/themes/default/images/dialog.png" width="310" height="20" />-->
+            </div>
+
+            <input alt="#TB_inline?height=250&width=300&inlineId=dialog" class="thickbox hiden" type="button" value="Show" />  
+
+            <div class="fl main-mycar-btn"><a class="button" href="{{ url controller='Products' }}" title="继续购物">&laquo; 继续购物 </a></div>  
+            <div class="fr main-mycar-btn"><a id="settlement" class="button" href="javascript:void(0);">转到下一步 &raquo;</a></div>
+
+            {{ else }}
+            
+            <div class="main-mycar-btn" style="width: 30%; margin: 0 auto;padding:80px 0; font-size: 16px; height: 36px; line-height: 36px; background: url('themes/default/images/cart.jpg') no-repeat left center; padding-left: 90px;">
+                您还没有挑选商品， 
+                <a href="{{ url controller='Products' }}" class="button" title="继续购物"> 继续购物 &raquo;</a>
+            </div>  
+
+            {{ /if }}
+
+        </div>
+
+        <div class="clear"></div>
+        <div style="margin-top:20px;"><img src="/themes/default/images/home_11.jpg" width="392" height="37" /></div>
+        <!--/*end mycar购物车*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+jQuery(function($) {
+    $('.main-mycar tbody tr').hover(function(){
+        $(this).css('backgroundColor','#edfdff');
+    },function(){
+        $(this).css('backgroundColor','#ffffff')
+    });
+
+    /**
+     * 结算小计，总计 
+     */
+    $("input.vinput").each(function() {
+        var num = $(this).attr("rel");
+        var price = parseInt($("#price"+num).attr("rel"));
+        var total = parseInt($(this).val())*price;
+
+        var retailsubprice = parseInt($("#retail"+num).text()) - price;
+
+        var retailtotal = parseInt($(this).val())*retailsubprice;
+        $("#total"+num).text(total);
+        $("#retailtotal"+num).val(retailtotal);
+        $("#numbers"+num).val(parseInt($(this).val()));
+    });
+    checkout();
+    /**
+     * 相应输入框变化 
+     */
+    $("input.vinput").each(function() {
+        $(this).change(function() {
+            var num = $(this).attr("rel");
+            var price = parseInt($("#price"+num).attr("rel"));
+            var total = parseInt($(this).val())*price;
+
+            var retailsubprice = parseInt($("#retail"+num).text()) - price;
+
+            var retailtotal = parseInt($(this).val())*retailsubprice;
+            $("#total"+num).text(total);
+            $("#retailtotal"+num).val(retailtotal);
+            $("#numbers"+num).val(parseInt($(this).val()));
+            
+             $.post(
+                "{{url controller='Member' action='AjaxUpdateProNum'}}",
+                {
+                    nums : parseInt($(this).val()),
+                    pro_id : num
+                }
+            );
+            
+            checkout();
+        });
+    });
+    /**
+     * 检测是否已登陆，并决定是否显示登录框 
+     */
+    $("#settlement").click(function() {
+        var url = "{{ url controller='Member' action='AjaxCheckLogin' }}";
+        $.post(
+            url,
+            function(data)
+            {
+                if(data.isNotLogin) {
+                    $("input.thickbox").trigger('click');
+                } else {
+                    $.fn.Tips({text:'正在生成订单',time:15});
+                    $.post('{{url controller="check" action="createorder"}}',
+                    function(d){
+                        if(d.success==1){
+                            window.location.href = "{{ url controller='Check' action='SelectDelivery' orderId='orderid' }}".replace('orderid',d.orderid);
+                        }else{
+                            alert(d['description'])
+                            msg=d.description||'服务器错误，请稍后再试';
+                            $.fn.Tips({text:msg,type:'error'})
+                        }
+                    },'json');
+                }
+
+            },
+            'json'
+        );
+    });
+
+    // 登陆post请求
+    $("#loginBtn").click(function() {
+        var loginForm = $("#loginForm");
+        var url = "{{url controller='Member' action='Login'}}";
+        if(document.loginForm.username.value==''){
+            $.fn.Tips({text:'请输入用户名',type:'warn'});
+            document.loginForm.username.focus();
+            return false;
+        }
+        if(document.loginForm.password.value==''){
+            $.fn.Tips({text:'请输入密码',type:'warn'});
+            document.loginForm.password.focus();
+            return false;
+        }
+        $.post(
+            url, 
+            loginForm.serialize(), 
+            function(data) 
+            {
+                if(!data.loginStatus) {
+                    $.fn.Tips({text:'用户名或密码错误',type:'error'})
+                } else {
+                    $.fn.Tips({text:'登陆成功',type:'okay'})
+                    setTimeout(function(){location.reload();},1000);
+                }
+            },
+            'json'    
+        );
+    });
+});
+
+/**
+ * 计算总数 
+ */
+var checkout = function()
+{
+    var checkout = 0;
+    var checkretail = 0;
+    var checkpost = 0;
+    $("span.tt").each(function() {
+        checkout += parseInt($(this).text());
+    });
+
+    $("input.rr").each(function() {
+        checkretail += parseInt($(this).val());        
+    });
+
+    $("span.pp").each(function() {
+        checkpost += parseInt($(this).text());        
+    });
+    
+    $("#checkout").text(checkout);
+    $("#savemoney").text(checkretail);
+    $("#allcheckout").text(checkout+checkpost);
+    $("#postbill").text(checkpost);
+    $("input[name='total']").val(checkout+checkpost);
+}
+/**
+ * 输入框加功能 
+ */
+var add = function(id, proid)
+{
+    var input = $("#" + id);
+    var inputValue = parseInt($("#" + id).val());
+    input.val(parseInt(inputValue+1)); 
+    
+    $("#"+id).trigger("change");
+}
+/**
+ * 输入减功能 
+ */
+var sub = function(id, proid)
+{
+    var input = $("#" + id);
+    var inputValue = parseInt($("#" + id).val());
+    if(inputValue > 1) {
+        input.val(parseInt(inputValue-1)); 
+        
+        $("#"+id).trigger("change");
+    }
+}
+</script>
+</body>
+</html> 

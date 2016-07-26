@@ -1,0 +1,93 @@
+{{ include file='include/head.inc.html' }}
+</head>
+<body>
+    <div class="inclub">
+        <!--/*head*/-->{{ include file='include/top.inc.html' }}<!--/*end head*/-->
+		<!--/*menu*/-->
+		<div id="navwraper">
+			{{ include file='include/nav.inc.html' }}
+	        <div class="clear">
+	        </div>
+			<div id="location">
+	        <ul class="nav-location fl clearfix">
+	            <li class="path home">
+	                <a href="/index.php">首页</a>
+	            </li>
+	            <li class="current">
+	                <a href="{{ url controller='Products' action='Brand' id=$brand.brand_id }}" title="{{$brand.name}}">{{ $brand.name }}所有系列</a>
+	            </li>
+	        </ul>
+			</div>
+	        <div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+		{{ foreach from=$brands.rows item='row' }}
+        <div class="main-prod-category">
+            <img src="/uploads/{{ $row.pic }}" width="960" height="279" /><a class="main-prod-category-btn" href="{{ url controller='Products' action='Brand' id=$row.brand_id }}" title="查看系列所有产品">查看系列所有产品</a>
+        </div>
+        {{ /foreach }}
+        <div class="clear">
+        </div>
+        {{ if $brands.pager }}
+        {{ webcontrol type='Pagenavfront' name='turnpage' pager=$brands.pager controller='Products' action='Brand' id=$smarty.get.id }}
+        {{ /if }}
+        <div class="clear">
+        </div>
+        {{ if $smarty.get.id }}
+        <div class="main-prod-category">
+            <a href="{{$brand.link}}" title="{{$brand.name}}"><img src="/uploads/{{ $brand.pic }}" width="960" height="279" /></a><!--<a class="main-prod-category-btn" href="javascript:history.back();" title="返回所在系列的产品">返回所在系列的产品</a>-->
+        </div><!--/*gaincar产品*/-->
+		<script type="text/javascript">
+        jQuery(function($){
+			$('#productlist li').hover(function(){
+				$(this).addClass('hover');
+			},function(){
+				$(this).removeClass('hover');
+			})
+		});
+		function imgOnload(o){
+			var p=$(o).parent(),h=p.height(),w=p.width(),s=w/h;
+			var tw=o.width,th=o.height,ts=tw/th;
+			if(ts>=s && th>=h){
+				o.height=h;
+				o.width=h*ts;
+				$(o).css({position:'relative',left:(w-o.width)*.5})
+			}else if(ts<=s && tw>=w){
+				o.width=w;
+				o.height=w/ts;
+				$(o).css({position:'relative',top:(h-o.height)*.5})
+			}
+		}
+        </script>
+        <div id="productlist">
+        <ul class="main-prod">
+            {{ foreach from=$products.rows item='row' }}
+            <li>
+                <a class="img" href="{{ url controller='Products' action='View' cate_id=$row.cate_id id=$row.pro_id }}" title="{{$row.name}}"><img src="/uploads/{{$row.pic}}" onload="imgOnload(this)" alt="{{$row.name}}" /></a>
+				{{ if $row.discount }}<span class="discount"><b>{{$row.discount}}折</b></span>{{ /if }}
+				{{$displayType[$row.displayorder]}}
+				<a href="{{ url controller='Products' action='View' cate_id=$row.cate_id id=$row.pro_id }}" class="title">
+					<h4>{{$row.name}}</h4>
+					<p>
+						<span class="right"></span>
+						<span class="price">￥{{$row.price}}</span><span class="saled">已售：{{$row.selled}}件</span><br />
+						<del>市场价：￥{{$row.retail}}</del>
+					</p>
+				</a>
+            </li>
+            {{ /foreach }}
+        </ul>
+		</div>
+        
+        <div class="clear">
+        </div>
+        <!--/*end gaincar产品*/-->
+        {{ webcontrol type='Pagenavfront' name='turnpage' pager=$products.pager controller='Products' action=$smarty.get.do id=$smarty.get.id }}
+        {{ /if }}
+        <!--/*help帮助中心*/-->
+        <div class="clear">
+        </div>
+        {{ include file='include/bottom.inc.html' }}
+    </div>
+</body>
+</html>

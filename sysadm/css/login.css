@@ -1,0 +1,87 @@
+@charset "utf-8";
+
+body {
+    background:#e9f2f5;
+    }
+
+
+#login-wrap {}
+    #login-wrap .login-title {
+        height:260px;
+        background:#fff;
+        }
+        #login-wrap .login-title h1 {
+            width:100%;
+            color:#036;
+            display:block;
+            position:absolute;
+            top:200px;
+            text-align:center;
+            font-size:34px;
+            font-weight:100;
+            }
+            #login-wrap .login-title h1 small {
+                font-size:11px;
+                color:#333;
+                margin-left:20px;
+                }
+    #login-wrap .login-form {
+        height:60px;
+        background: #0072BC url(../../sysadm/img/tbg.gif) repeat-x bottom;
+        border-bottom:1px #058 solid;
+        border-top: #127bbf 1px solid;
+        }
+    #login-wrap .login-form .tline {
+        color:#fff;
+        height:30px;
+        line-height:28px;
+        background: #007ac9;
+        padding-left:35%;
+        border-top:1px #add2ea solid;
+        }
+    #login-wrap .login-form .fline {
+        color:#fff;
+        padding-left:35%;
+        height:29px;
+        line-height:28px;
+        }
+        #login-wrap .login-form .fline .ltext {
+            margin-left:2px;
+            }
+        #login-wrap .login-form .fline img {
+            background:#fff;
+            width:50px;
+            height:18px;
+            }
+    #login-wrap .login-copyright {
+        font-size:11px;
+        color:#036;
+        height:35px;
+        line-height:35px;
+        text-align:center;
+        }
+
+
+.ltext {
+    border:0;
+    background:#fff;
+    height:18px;
+    font-size:12px;
+    width:160px;
+    }
+
+.imgcode {
+    border:0;
+    background:#fff;
+    height:18px;
+    font-size:12px;
+    width:60px;
+    }
+.lsubmit {
+    width:66px;
+    height:18px;
+    background:url(../../sysadm/img/login-bt.gif) no-repeat;
+    border:0;
+    font-size:10px;
+    color:#036;
+    }

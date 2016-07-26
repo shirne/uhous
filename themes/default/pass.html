@@ -1,0 +1,94 @@
+{{ include file='include/head.inc.html' }}
+<style type="text/css" media="screen">
+.main-personmsg label {
+    width: 400px;
+    }
+</style>
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+        <div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+
+        <!--/*gaincar个人中心*/-->
+        <div class="main-member clearfix">
+
+                <h3 style="text-indent: 40%; padding-bottom: 10px; margin: 50px auto 30px; border-bottom: 1px solid #CCC;">修改密码</h3>
+                <form id="editForm" name="editForm" class="main-personmsg" style="width: 50%; margin: 0 auto;" action="{{ url controller='Member' action='Pass2' }}" method="post">
+                    <div class="line"><label><span><strong>*</strong>新密码： </span>
+                        <input name="password" type="password" tabindex="1" value="" />
+                    </label>
+                    </div>
+                    <div class="line"><label><span><strong>*</strong>确认密码： </span>
+                        <input name="confpass" type="password" tabindex="2" value="" />
+                    </label>
+                    </div>
+                    <div class="line">
+                    <label><span><strong>*</strong>验证码： </span>
+                        <input name="code" type="text" tabindex="3" value="" />
+                    </label>
+                    </div>
+
+                    <div class="clear"><!--Clear Float--></div>
+                    <input type="submit" class="button" style="width: 80px;margin-left:140px; font-size:14px; cursor:pointer;text-align:center" value="确认修改"/>
+                </form>
+
+        </div>
+        <!--/*end gaincar个人中心*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+    
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+    <script type="text/javascript" charset="utf-8">
+    jQuery(function($){
+        var cansubmit = false;
+
+        $(document.editForm.confpass).focusout(function() {
+            if(document.editForm.password.value != this.value) {
+                $.fn.Tips({text:'两次密码不一致',type:'error'});
+                cansubmit = false;
+            } else {
+                cansubmit = true;
+            }            
+        });
+
+        $("#editForm").submit(function(e) {
+            if(this.password.value=='') {
+                e.preventDefault();
+                $.fn.Tips({text:'请输入新密码',type:'error'});
+                this.password.focus();
+                return false;
+            }
+            if(!cansubmit){
+                e.preventDefault();
+                $.fn.Tips({text:'请确认两次密码输入一致',type:'error'});
+                this.confpass.focus();
+                return false;
+            }
+            if(this.code.value==''){
+                e.preventDefault();
+                $.fn.Tips({text:'请输入您从邮箱获取的验证码',type:'error'});
+                this.code.focus();
+                return false;
+            }
+            return true;
+        });
+    });
+    </script>
+
+</body>
+</html>     

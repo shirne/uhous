@@ -1,0 +1,43 @@
+{{ include file='include/head.inc.html' }}
+{{if $tips.url}}<meta http-equiv="refresh" content="{{if $tips.timeout}}{{$tips.timeout}}{{else}}3{{/if}};url={{$tips.url}}">{{/if}}
+<style type="text/css" media="screen">
+.sysinfo { height: 50px; line-height: 50px; border-bottom: 1px dashed #333; color:#e3007b; font-size: 16px; font-weight: bold;  }
+.tips { padding: 20px 0; font-weight: bold; font-size: 15px; }
+</style>
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+		<div id="navwraper">
+        {{ include file='include/nav.inc.html' }}
+
+        <div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+        <!--/*gaincar登陆*/-->
+        <div class="main-mycar">
+
+            <p class="tc sysinfo">{{$tips.title}}</p>
+            <div class="tips">
+                <p class="tc">{{$tips.description}}</p>
+            </div>
+
+        </div>
+        <!--/*end gaincar登陆*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+        <hr class="hr">
+
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+</body>
+</html> 

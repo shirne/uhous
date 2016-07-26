@@ -1,0 +1,11 @@
+        <div id="nav">
+        	<ul class="right">
+                <li class="fmenu active" id="newprod"><a class="fmenu" href="{{url controller='products'}}"><span class="ico new"></span><br />最新产品</a></li>
+            </ul>
+			<form name="search" action="{{url controller='products'}}" class="right">
+				<input type="text" id="keyword" name="keyword" class="text" value="{{ if $keyword }}{{$keyword}}{{else}}输入产品名称搜索{{/if}}">
+				<a href="javascript:void(0);" class="button" onclick="$(document.search).submit();">确定</a>
+			</form>
+            {{ webcontrol type='Navcategory' cate_id=$smarty.get.cate_id }}
+        </div>
+		<script type="text/javascript" src="/themes/default/js/global.js"></script>

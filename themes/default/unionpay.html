@@ -1,0 +1,99 @@
+{{ include file='include/head.inc.html' }}
+<style type="text/css" media="screen">
+.payFrame {
+    border: 1px dotted #999;
+    border-width: 1px 0;
+    height: 250px;
+    margin: 15px 0;
+    }
+    .payFrame table {
+        margin-top: 50px;
+        }
+        .payFrame table tr {}
+            .payFrame table tr td {
+                font-size: 16px;
+                padding: 5px 0;
+                }
+.money {
+    color: red;
+    font-size: 24px;
+    font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+    <div class="inclub">
+
+       <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+		<div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+        <ul class="total_menu fl clearfix">
+            <li><a href="{{ url controller='Member' action='Carts' }}" title="我的购物车" target='_blank'>我的购物车</a></li>
+            <li><a href="#">送货地址</a></li>
+            <li><a href="#">成交结算</a></li>
+            <li class="current"><a href="#">成交确认</a></li>
+        </ul>
+
+        <div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+        <!--/*gaincar登陆*/-->
+        <div class="main-mycar-dialogeare">
+
+            <div class="payFrame">
+
+                <form action="{{url controller='check' action='unionpay'}}" method="post" accept-charset="utf-8">
+                <table border="0" width="40%" align="center">
+                    <tr>
+                        <td width="30%">订单编号：</td>
+                        <td>{{$order_no}}</td>
+                    </tr>
+                    <tr>
+                        <td>应付金额：</td>
+                        <td class="money">￥{{$order_total}}元{{if $coupon}}<font color="#999999">(优惠金额:￥{{$coupon.coupon.value}})</font>{{/if}}</td>
+                    </tr>
+                    <tr>
+                        <td>支付方式：</td>
+                        <td>
+                            <img src="/themes/default/images/unionpay.jpg" alt="网付通" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" value="" style="border:0; background: url('/themes/default/images/alipay.png'); width:96px; height: 40px; cursor:pointer;" /></div>
+                        </td>
+                    </tr>
+                </table>
+
+                <input type="hidden" name="order_no" value="{{$order_no}}" />
+                <input type="hidden" name="order_total" value="{{$order_total}}" />
+                <input type="hidden" name="receive_name" value="{{$receive_name}}" />
+                <input type="hidden" name="receive_address" value="{{$receive_address}}" />
+                <input type="hidden" name="receive_zip" value="{{$receive_zip}}" />
+                <input type="hidden" name="receive_phone" value="{{$receive_phone}}" />
+                <input type="hidden" name="receive_mobile" value="{{$receive_mobile}}" />
+
+                </form>
+                
+            </div>
+
+        </div>
+        <!--/*end gaincar登陆*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+        <hr class="hr">
+
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+</body>
+</html> 

@@ -1,0 +1,73 @@
+{{ include file='include/head.inc.html' }}
+
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+        {{ include file='include/nav.inc.html' }} 
+
+        <div class="clear"></div>
+
+        <div class="line"></div>
+        <ul class="nav-location fl clearfix">
+            <li><a href="#"><b>首页&raquo;</b></a></li>
+
+            <li class="current"><a href="#">关于我们</a></li>
+        </ul>
+
+        <!--<div class="fr nav-view">
+            <form>
+                <span>排列方式:</span>
+                <select name="" size="1">
+                    <option value="默认">默认</option>
+                </select>
+            </form>
+        </div>-->
+
+        <div class="clear"></div>
+        <!--/*end menu*/-->
+
+        <!--/*gaincar设计师*/-->
+        <div class="main-designer">
+            <div class="main-designer-title" style="color:#999999;font-size: 20px;">
+                关于我们
+                <div class="clear"></div>
+            </div>
+
+            <div class="main">
+                <!--**main**-->
+
+                <div class="col-m190">
+                    <ul>
+                        <li><img src="/uploads/{{$about.pic}}" width="277" height="234" /></li>
+                    </ul>
+                </div>
+
+
+                <div class="col-light">
+                    {{$about.content}}  
+                </div>
+                <!--**foot**-->
+                <div class="cls"></div>
+            </div>
+            <div class="clear"></div>
+        </div> 
+        <!--/*end gaincar设计师*/-->
+
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+        <hr class="hr">
+
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+</body>
+</html> 

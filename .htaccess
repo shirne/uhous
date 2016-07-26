@@ -1,0 +1,22 @@
+RewriteEngine on
+RewriteBase /
+
+
+
+
+RewriteCond %{HTTP_HOST} ^gaincar.com [NC]
+RewriteRule ^(.*)$ http://www.uhous.com/$1 [L,R=301]
+
+
+RewriteCond %{HTTP_HOST} ^www.gaincar.com [NC]
+RewriteRule ^(.*)$ http://www.uhous.com/$1 [L,R=301]
+
+
+RewriteCond %{HTTP_HOST} ^uhous.com [NC]
+RewriteRule ^(.*)$ http://www.uhous.com/$1 [L,R=301]
+
+RewriteRule ^((?:home|products|member|check|information)(?:/.*)?) /index.php/$1 [L,NC]
+
+RewriteRule ^sysadm/((?:admin|advertise|columns|coupons|dashboard|download|exchange|guestbook|information|member|order|page|products|settings|setup)(?:/.*)?) /sysadm/index.php/$1 [L,NC]
+
+ErrorDocument 404 /index.php/home/error

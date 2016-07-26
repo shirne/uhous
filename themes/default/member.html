@@ -1,0 +1,98 @@
+{{ include file='include/head.inc.html' }}
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+        <div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+
+        <!--/*gaincar个人中心*/-->
+        <div class="main-member clearfix">
+            {{ include file='member_nav.inc.html' }}
+
+            <div class="main-member-right">
+                <h3>用户中心</h3>
+
+                <div class="memberinfo">
+                    <ul class="info-tips">
+                        <li class="title-tips">
+                            <strong>{{$member.username}}</strong>&nbsp;&nbsp;欢迎您回到 {{ option key='sitename' }} ！
+                        </li>{{if $smarty.session.notperf}}
+						<li>
+                            <font color="red">提醒</font>：您使用QQ登陆本站，帐户信息尚未完善，完善后您可以使用本站的帐户密码登陆<a href="{{url controller='Member' action='QQreg'}}" style="color:red" title="完善帐户信息">立即完善</a> ！
+                        </li>
+						{{/if}}
+                        <li>您上一次登陆时间：{{$member.lasttime|date_format:'%Y-%m-%d %H:%M:%S'}}</li>
+                        <li>您的等级是：{{$member.level.levels}}</li>
+                        {{ if $member.email_check eq 1 }}
+                        <li><small class="icon-ok">已通过邮件认证</small></li>
+                        {{ else }}
+                        <li>您还没有通过邮件认证 <a id="checkemail" href="javascript:void(0);" title="点此发送认证邮件">点此发送认证邮件</a></li>
+                        {{ /if }}
+                        <li><span id="etips" style="display: none;padding:6px 0;padding-left:18px;"></span></li>
+                    </ul>
+
+                    <div class="account">
+                        <div class="title-tips"><strong>您的帐户</strong></div>
+                        <ul>
+                            <li>余　额:　￥{{$member.overage}}元 </li>
+                            <li>优惠券:　共计 0 个, 价值 ￥0.00元 </li>
+                            <!--<li>积　分:　{{$member.points}}积分 </li>-->
+                        </ul>
+                    </div>
+
+                    <div class="warmtips">
+                        <div class="title-tips"><strong>用户提醒</strong></div>
+                        <ul>
+                            <li>您最近30天内提交了{{$order_num}}个订单</li>
+                        </ul>
+                    </div>
+                    <div class="clear"><!--Clear Float--></div>
+                </div>
+            </div>
+
+        </div>
+        <!--/*end gaincar个人中心*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+    
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+jQuery(function($) {
+    $("#checkemail").click(function() {
+        var link = "{{ url controller='Member' action='CheckEmail' }}";
+		$("#etips").html('正在发送中...').fadeIn(1000);
+        $.post(
+            link,
+            function(data) {
+                if(data.success) {
+
+                    $("#etips").fadeOut(500,function(){
+						$(this).addClass('icon-ok').html('已向{{$member.email}}发送了email验证邮件，请注意查收并激活！').fadeIn(500,function(){
+							$(this).fadeOut(3000);
+						});
+					});
+                }
+            },
+            'json'
+        );
+        
+    });
+});
+</script>
+
+</body>
+</html> 

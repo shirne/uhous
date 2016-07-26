@@ -1,0 +1,180 @@
+<html>
+<head>
+<link href="/themes/default/css/reset.css" rel="stylesheet" type="text/css" />
+<link href="/themes/default/css/public.css" rel="stylesheet" type="text/css" />
+<script src="/themes/default/js/jquery-1.4.4.min.js"></script>
+<style type="text/css">
+html,body{overflow-y:hidden}
+td label{float:left;padding:5px 0}
+td label span{float:left;width:80px;margin-top:5px;text-align:right}
+td label input,td label select{float:left}
+td label input.text{background:#fff;border:1px #ccc solid;padding:5px;height:auto}
+</style>
+</head>
+<body>
+        <div class="main-adress">
+            <table width="534" border="0" cellspacing="0" cellpadding="0">
+                <form id="addForm" method="post" action="{{ url controller='Member' action='AddAdress' new=$smarty.get.new }}">
+                    <tbody>
+                        <tr>
+                            <td width="50%"><label><span>收货人：</span><input class="text" id="username" name="username" type="text" tabindex="1" value="{{$address.username}}" /></label></td>
+                            <td width="50%"><label><span>电话：</span><input class="text" id="phone" name="phone" type="text" tabindex="2" value="{{$address.phone}}" /></label></td>
+                        </tr>
+                        <tr>
+                            <td><label><span>E-mail：</span><input class="text" id="email" type="text" name="email" tabindex="3" value="{{$address.email}}"  /></label></td>
+                            <td><label><span>邮政编码：</span><input class="text" id="post" type="text" name="post" tabindex="8" value="{{$address.post}}"  /></label></td>
+                        </tr>
+                        
+                        <tr>
+                            <td colspan="2">
+                                {{ webcontrol type='Area' displayLabel='yes' prov_id=$address.address.province.id city_id=$address.address.city.id}}
+                                <label>
+                                    <select onchange="selectArea(this.value, 'division', null)" id="city" name="city" tabindex="6">
+                                        <option value="0">-市区-</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    <select onchange="fixForm();" id="division" name="division" tabindex="7">
+                                        <option value="0">-县区-</option>
+                                    </select>
+                                </label>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td colspan="2"><label><span>详细地址：</span><textarea class="text" id="address" name="address" tabindex="9" style="width:430px;height:50px;" >{{$address.address.address}}</textarea></label></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    <span>送货时间：</span>
+                                    <select id="besttime" name="besttime" tabindex="10">
+                                        <option {{ if $address.besttime eq '任何时间'}}selected="selected"{{/if}} value="任何时间">任何时间</option>
+                                        <option  {{ if $address.besttime eq '工作时间'}}selected="selected"{{/if}} value="工作时间">工作时间-周一至周五</option>
+                                        <option  {{ if $address.besttime eq '周末'}}selected="selected"{{/if}} value="周末">周末-星期六至星期天</option>                      
+                                    </select>
+                                </label>
+                            </td>
+                            <td><label><span>标志建筑：</span><input class="text" id="building" name="building" type="text" tabindex="11" value="{{$address.building}}"  /></label></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><label><span>设为默认：</span><input tabindex="12" style="margin-top:8px;" {{ if $address.default eq 1 }}checked="checked"{{ /if }} type="checkbox" name="default" value="1" /></label></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="保存地址" class="button">
+                            </td>
+                        </tr>
+                    </tbody>
+                    <input type="hidden" name="col_key" value="{{$address.col_key}}" />
+                    <input type="hidden" name="lang" value="{{$address.lang}}" />
+                    <input type="hidden" name="add_id" value="{{$address.add_id}}" />
+                    <input type="hidden" name="province[id]" value="" />
+                    <input type="hidden" name="province[name]" value="" />
+                    <input type="hidden" name="city[id]" value="" />
+                    <input type="hidden" name="city[name]" value="" />
+                    <input type="hidden" name="division[id]" value="" />
+                    <input type="hidden" name="division[name]" value="" />
+                </form>
+            </table>   
+        </div>
+        
+
+        
+
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+jQuery(function($) {
+    $("#addForm").submit(function(e) {
+        e.preventDefault();
+        
+        if(!$("#username").val()) {
+            $.fn.Tips({text:"收货人必须填写！",type:'warn'});
+            $("#username").focus()
+        } else if(!$("#phone").val()) {
+            $.fn.Tips({text:"手机号码必须填写！",type:'warn'});
+            $("#phone").focus()
+        } else if(!$("#email").val()) {
+            $.fn.Tips({text:"邮箱地址必须填写！",type:'warn'});
+            $("#email").focus()
+        } else if(!$("#address").val()) {
+            $.fn.Tips({text:"收货地址必须填写！",type:'warn'});
+            $("#address").focus()
+        } else if(!$("#post").val()) {
+            $.fn.Tips({text:"邮政编码必须填写！",type:'warn'});
+            $("#post").focus()
+        } else {
+
+            $.post(
+                $(this).attr('action'),
+                $("#addForm").serialize(),
+                function(data) {
+                    if(data.success) {
+                        $.fn.Tips({text:'保存成功',type:'okay'});
+                        top.location.reload()
+                    }
+                },
+                'json'
+            );
+        }
+        return false;
+    });
+
+    var prov_id = '{{$address.address.province.id}}';
+    var city_id = '{{$address.address.city.id}}';
+    if(prov_id && city_id) {
+        selectArea(prov_id, 'city', city_id);
+    } else {
+        selectArea(28, 'city', null);
+    }
+});   
+
+/* 选择 */
+function selectArea(provId, displayId, current)
+{
+    if(displayId == 'division')
+    {
+        current = '{{$address.address.division.id}}';
+    }
+    $.post(
+        "{{ url controller='Check' action='AjaxSelectArea' }}",
+        {
+            prov_id : provId,
+            disp : displayId,
+            current_id : current
+        },
+        function(data) {
+
+            if(data){
+
+                $("#"+displayId).html(data);
+
+            } else {
+
+                $("#"+displayId).html("<option value='0'>- 无 -</a>");
+            }
+
+            if(displayId == 'city') {
+
+                selectArea($("#city").val(), 'division', current);
+
+            }
+            fixForm();
+        }
+    );
+}
+
+var fixForm = function()
+{
+    $("input[name='province[id]']").val($("#province").val());
+    $("input[name='province[name]']").val($("#province option:selected").text());
+    $("input[name='city[id]']").val($("#city").val());
+    $("input[name='city[name]']").val($("#city option:selected").text());
+    $("input[name='division[id]']").val($("#division").val());
+    $("input[name='division[name]']").val($("#division option:selected").text());
+}
+</script>
+
+</body>
+</html> 

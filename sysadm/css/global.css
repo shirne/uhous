@@ -1,0 +1,238 @@
+@charset "utf-8";
+/* Reset Css
+--------------------------------------------------------------------------------------------- */
+
+/* http://meyerweb.com/eric/tools/css/reset/ */
+/* v1.0 | 20080212 */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    background: transparent;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+    outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+    text-decoration: none;
+}
+del {
+    text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* `Basic HTML
+----------------------------------------------------------------------------------------------------*/
+
+body {
+    font: 13px/1.5 Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
+}
+
+a:focus {
+    outline: 1px dotted invert;
+}
+
+hr {
+    border: 0 #ccc solid;
+    border-top-width: 1px;
+    clear: both;
+    height: 0;
+}
+
+/* `Headings
+----------------------------------------------------------------------------------------------------*/
+
+h1 {
+    font-size: 25px;
+}
+
+h2 {
+    font-size: 23px;
+}
+
+h3 {
+    font-size: 21px;
+}
+
+h4 {
+    font-size: 19px;
+}
+
+h5 {
+    font-size: 17px;
+}
+
+h6 {
+    font-size: 15px;
+}
+
+/* `Spacing
+----------------------------------------------------------------------------------------------------*/
+
+ol {
+    list-style: decimal;
+}
+
+ul {
+    list-style: square;
+}
+
+li {
+    margin-left: 30px;
+}
+
+/* `Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+/* http://perishablepress.com/press/2008/02/05/lessons-learned-concerning-the-clearfix-css-hack */
+
+.clearfix:after {
+    clear: both;
+    content: ' ';
+    display: block;
+    font-size: 0;
+    line-height: 0;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
+
+.clearfix {
+    display: block;
+}
+
+/* Global Margin And Padding Style */
+.mt { margin-top: 10px; }
+.ml { margin-left: 2%; }
+.pl { text-indent: 3%; }
+
+/* Global Text Align Style */
+.tc { text-align: center; }
+.tl { text-align: left; }
+.tr { text-align: right; }
+
+/* Global Float Style */
+.fc { float: none; }
+.fl { float: left; }
+.fr { float: right; }
+
+a:link,
+a:visited,
+a:active {
+    color:#444;
+    text-decoration:none;
+    }
+a:hover {
+    color:#690;
+    }
+
+#purr-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 99999999 !important;
+    }
+.notice {
+    position: relative;
+    width: 324px;
+    }
+.notice .close {position: absolute; top: 12px; right: 12px; display: block; width: 18px; height: 17px; text-indent: -9999px; background: url(../../sysadm/img/purrClose.png) no-repeat 0 10px;}
+.notice-body {
+    min-height: 50px;
+    padding: 22px 22px 0 22px;
+    background: url(../../sysadm/img/purrTop.png) no-repeat left top;
+    color: #f9f9f9;
+    }
+.notice-body img	{width: 50px; margin: 0 10px 0 0; float: left;}
+.notice-body h3 {margin: 0; font-size: 1.1em;}
+.notice-body p {margin: 5px 0 0 60px; font-size: 0.8em; line-height: 1.4em;}
+.notice-bottom {
+    height: 22px;
+    background: url(../../sysadm/img/purrBottom.png) no-repeat left top;
+    }
+
+#msg {
+    cursor:pointer;
+    margin-bottom:20px;
+    padding:8px;
+    text-indent:28px;
+    }
+    .info, .error, .wait, .great {
+        border:1px solid #ccc;
+        }
+    .info {
+        background:#DBE3FF url(../images/icons/tip-info.png) no-repeat 12px 10px;
+        border-color:#A2B4EE;
+        color:#585B66;
+        }
+    .error {
+        background:#FFCECE url(../images/icons/tip-error.png) no-repeat 12px 10px;
+        border-color:#DF8F8F;
+        color:#665252;
+        }
+    .wait {
+        background:#FFFBCC url(../images/icons/tip-wait.png) no-repeat 12px 10px;
+        border-color:#E6DB55;
+        color:#666452;
+        }
+    .great {
+        background:#D5FFCE url(../images/icons/tip-great.png) no-repeat 12px 10px;
+        border-color:#9ADF8F;
+        color:#556652;
+        }
+
+.red { color: red; }
+

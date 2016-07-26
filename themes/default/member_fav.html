@@ -1,0 +1,103 @@
+{{ include file='include/head.inc.html' }}
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+        <div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+
+        <!--/*gaincar个人中心*/-->
+        <div class="main-member clearfix">
+            {{ include file='member_nav.inc.html' }}
+
+            <div class="main-member-right">
+                <h3>我的收藏</h3>
+                {{ if $rows }}
+                <table class="main-member-bought" width="93%" align="center" border="0" cellspacing="10" cellpadding="10">
+                    <tbody>
+                        <tr class="main-member-bought-title">
+                            <td width="300">货品名称</td>
+                            <td width="92" align="right">放入时间</td>
+                            <td width="92" align="right">小计</td>
+                            <td width="123" align="right">操作</td>
+                        </tr>
+                        {{ foreach from=$rows item='row' }}
+                        <tr class="main-member-bought-main" >
+                            <td class="main-member-bought-name"><img src="/uploads/thumb_{{$row.product.pic}}" alt="" width="50" height="50" style="margin-right:15px;" /><p><b><a href="{{url controller='Products' cate_id=$row.product.cate_id id=$row.product.pro_id}}">{{$row.product.name}}</a></b><br />
+                                颜色：红色 尺寸：400X300X200</p></td>
+                            <td align="right">{{ $row.created|date_format:'%Y-%m-%d' }}</td>
+                            <td align="right">￥{{$row.product.price}}元</td>
+                            <td align="right"><a id="buy" class="icon-car" href="javascript:void(0);" rel="{{ url controller='Member' action='AddCar' pro_id=$row.pro_id }}">购买</a> / <a id="delete" href="javascript:void(0);" rel="{{ url controller='Member' action='RemoveFav' pro_id=$row.pro_id }}">删除</a> </td>
+                        </tr>
+                        {{ /foreach }}
+                    </tbody>
+                </table>
+                {{ else }}
+
+            <div class="main-mycar-btn" style="width: 40%; margin: 0 auto; font-size: 16px; height: 200px; line-height: 200px; background: url('themes/default/images/cart.jpg') no-repeat left center; padding-left: 90px;">
+                您没有收藏任何商品， 
+                <a href="{{ url controller='Products' cate_id=0 }}" class="button" title="继续购物">去逛一下吧 &raquo;</a>
+            </div>  
+
+                {{ /if }}
+                
+
+            </div>
+
+        </div>
+        <!--/*end gaincar个人中心*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+jQuery(function($) {
+    $("a#buy").each(function() {
+        $(this).click(function() {
+            var url = $(this).attr('rel');
+            $.get(
+                url,
+                function(data) 
+                { 
+                    if(data.success) {
+                        window.location.href = "{{ url controller='Member' action='Carts' }}";
+                    }
+                },
+                'json'
+            );
+        });
+    });
+
+    $("a#delete").click(function() {
+        $(this).click(function() {
+            if(confirm("您确定要删除这些数据吗？")) {
+                var url = $(this).attr('rel');
+                $.get(
+                    url,
+                    function(data) {
+                        if(data.success) {
+                            window.location.reload();
+                        }
+                    },
+                    'json'
+                );
+            }
+        });
+    });
+});
+</script>
+</body>
+</html> 

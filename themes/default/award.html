@@ -1,0 +1,213 @@
+{{ include file='include/head.inc.html'  }}
+<link rel="stylesheet" href="/themes/default/css/thickbox.css" type="text/css" media="screen" />
+<script type="text/javascript" charset="utf-8" src="/themes/default/js/thickbox.js">
+</script>
+</head>
+<body>
+    <div class="inclub">
+        <!--/*head*/-->{{ include file='include/top.inc.html' }}<!--/*end head*/--><!--/*menu*/-->
+        <div id="navwraper">
+            {{ include file='include/nav.inc.html' }}
+            <div class="clear">
+            </div>
+            <div id="location">
+                <ul class="nav-location fl clearfix">
+                    <li class="path home">
+                        <a href="{{url Controller='home'}}">首页</a>
+                    </li>
+                    <li class="current">
+                        <a href="{{ url controller='Member' action='Invite' }}" title="邀请朋友 即送200元现金">邀请朋友 即送200元现金</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <!--/*end menu*/-->
+        <script type="text/javascript">
+            var src = ['award1.jpg'];
+            jQuery(function($){
+                $('#wraperbg').css('background', 'url(/themes/default/file/' + src[Math.floor(Math.random() * src.length)] + ') center top no-repeat')
+            })
+        </script>
+        <!--/*gaincar活动*/-->
+        <div class="main-award" id="wraperbg">
+            <script type="text/javascript">
+                function imgOnload(o){
+                    var p = $(o).parent(), h = p.height(), w = p.width(), s = w / h;
+                    var tw = o.width, th = o.height, ts = tw / th;
+                    if (ts >= s && th >= h) {
+                        o.height = h;
+                        o.width = h * ts;
+                        $(o).css({
+                            position: 'relative',
+                            left: (w - o.width) * .5
+                        })
+                    }
+                    else 
+                        if (ts <= s && tw >= w) {
+                            o.width = w;
+                            o.height = w / ts;
+                            $(o).css({
+                                position: 'relative',
+                                top: (h - o.height) * .5
+                            })
+                        }
+                }
+            </script>
+            <!-- {/{$info.content}/}-->
+            <div class="wraper">
+                <ul class="card">
+                    <li>
+                        <img src="/themes/default/file/card200.png" alt="注册邀请 送200" /><p class="desc">您第一次在我们的网站注册、邀请<br/>朋友注册、您马上得到</p><p class="title">价值￥200元购物券</p>
+                    </li>
+                    <li>
+                        <img src="/themes/default/file/card100.png" alt="接受邀请 送100" /><p class="desc">您邀请的朋友第一次在我们网站注册,<br/>您的朋友马上得到</p><p class="title">价值￥100元购物券</p>
+                    </li>
+                </ul>
+                <ul class="prod">
+                    <li>
+                        <a href="#" class="img"><img src="/themes/default/file/prods.jpg" onload="imgOnload(this)" alt="接受邀请 送100" /></a><p class="title">您邀请10个朋友</p>
+                        <p class="desc">马上送您<br/>￥288元米克朗椅子一个</p>
+                    </li>
+                    <li>
+                        <a href="#" class="img"><img src="/themes/default/file/prods.jpg" onload="imgOnload(this)" alt="接受邀请 送100" /></a><p class="title">您邀请50个朋友</p>
+                        <p class="desc">马上送您<br/>￥588元百诺茶几一个</p>
+                    </li>
+                    <li>
+                        <a href="#" class="img"><img src="/themes/default/file/prods.jpg" onload="imgOnload(this)" alt="接受邀请 送100" /></a><p class="title">您邀请100个朋友</p>
+                        <p class="desc">马上送您<br/>￥2888元方舟沙发一套</p>
+                    </li>
+                </ul>
+                <div class="linkwraper">
+                    <a class="button" href="#" id="invideBtn">现在就邀请</a>
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        <!--/*end gaincar活动*/-->
+		<!--/* 登陆框 */-->
+        <div id="dialog" class="dialog" style="display: none;">
+            <div class="dialogform">
+                <div class="dialogform-title fl">
+                    会员登陆
+                </div>
+                <div id="login_tips" class="fl hiden" style="margin-left: 10px;">
+                    <span class="icons-stop error-tips">用户名或密码错误！</span>
+                </div>
+                <div class="clear">
+                    <!--Clear Float-->
+                </div>
+                <form id="loginForm" action="{{ url controller='Member' action='Tips' }}" method="post">
+                    <label><span>用户名：</span><input type="text" id="username" name="username" size="20" /></label><label><span>密　码：</span><input type="password" id="pwd" name="password" size="20" /></label><input type="hidden" name="title" value="系统信息" /><input type="hidden" name="description" value="登录成功" /><input type="hidden" name="url" value="index.php?{{$smarty.session.BACKURL}}" />
+                    <div class="clear">
+                    </div>
+                    <a id="loginBtn" class="sub" href="javascript:void(0);">登录 &raquo;</a>
+                    <a class="sub" href="{{ url controller='Member' action='Login' }}#reg" title="注册">注  册 &raquo;</a>
+                    <br/><a href="{{url controller='Member' action='ForgetPass'}}">忘记密码</a>
+                </form>
+            </div>
+            <!--<img src="/themes/default/images/dialog.png" width="310" height="20" />-->
+        </div>
+        <input alt="#TB_inline?height=250&width=300&inlineId=dialog" class="thickbox login hiden" type="button" value="Show" />
+		<!--/* 邀请框 */-->
+		<div id="invidebox" class="dialog" style="display: none;">
+            <div class="dialogform" style="height:260px;">
+                <div class="dialogform-title fl">
+                    <span>邀请好友</span>
+                </div>
+                <div class="clear">
+                    <!--Clear Float-->
+                </div>
+                <form id="invideForm" action="{{ url controller='Member' action='SendInvitation' }}" method="post">
+                	<input name="code" type="hidden" />
+                    <table border="0">
+				        <tbody>
+				            <tr>
+				                <td align="left">好友邮箱：<br>
+				                <input type="text" value="" name="email"> 
+                                <span style="color: #999; margin-left: 15px;">eg:&nbsp;&nbsp;zjintang@gmail.com</span></td>
+				            </tr>
+				            <tr>
+				                <td align="left">推荐范文：<br>
+				                <textarea cols="48" rows="6" name="content" style="font-size: 12px;"></textarea></td>
+				            </tr>
+				            <tr>
+				                <td align="left"><a class="button" id="send" href="javascript:void(0);" style="margin-top:10px;color:#fff">点击发送»</a></td>
+				            </tr>
+				        </tbody>
+				    </table>
+                </form>
+            </div>
+            <!--<img src="/themes/default/images/dialog.png" width="310" height="20" />-->
+        </div>
+        <input alt="#TB_inline?height=313&width=400&inlineId=invidebox" class="thickbox invide hiden" type="button" value="Show" />
+		<!--/*help帮助中心*/-->
+        <div class="clear">
+        </div>
+        {{ include file='include/bottom.inc.html' }}
+    </div>
+    <script type="text/javascript" charset="utf-8">
+        jQuery(function($){
+            $("#invideBtn").click(function(){
+            
+                var user = '{{$user.id}}';
+                
+                if (user) {
+                
+                    var cont = "{{$invitation.value}}";
+                    
+                    $("textarea[name='content']").html(cont);
+                    
+                     $("input.invide").trigger('click');
+                }
+                else {
+                
+                    $("input.login").trigger('click');
+                    
+                }
+            });
+            
+            // 登陆post请求
+            $("#loginBtn").click(function(){
+                var loginForm = $("#loginForm");
+                var url = "{{url controller='Member' action='Login'}}";
+                $.post(url, loginForm.serialize(), function(data){
+                    if (data && !data.loginStatus) {
+                        $("#login_tips").show();
+                    }
+                    else {
+                        location.reload();
+                        
+                    }
+                }, 'json');
+            });
+            
+            $("#send").click(function(){
+            
+                if (!$("input[name='email']").val()) {
+                    $.fn.Tips({text:"请填写您好友的邮箱！",type:'error'});
+                }
+                else 
+                    if (!$("textarea[name='content']").val()) {
+                        $.fn.Tips({text:"请填写邀请内容！",type:'error'});
+                    }
+                    else {
+                    
+                        $.post("{{ url controller='Member' action='GetCheckCode' }}", function(data){
+                        
+                            if (data.code) {
+                            
+                                $("input[name='code']").val(data.code);
+                                
+                                $("#invideForm").submit();
+                            }
+                        }, 'json');
+                        
+                    }
+            });
+        });
+    </script>
+</body>
+</html>

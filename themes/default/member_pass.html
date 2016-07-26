@@ -1,0 +1,81 @@
+{{ include file='include/head.inc.html' }}
+<style type="text/css" media="screen">
+.main-personmsg label {
+    width: 400px;
+    }
+</style>
+</head>
+<body>
+
+    <div class="inclub">
+
+        <!--/*head*/-->
+        {{ include file='include/top.inc.html' }}
+        <!--/*end head*/-->
+
+        <!--/*menu*/-->
+        <div id="navwraper">
+		{{ include file='include/nav.inc.html' }}
+		<div class="clear"></div>
+		</div>
+        <!--/*end menu*/-->
+
+        <!--/*gaincar个人中心*/-->
+        <div class="main-member clearfix">
+            {{include file='member_nav.inc.html'}}
+
+            <div class="main-member-right">
+                <h3>修改密码</h3>
+                <form id="editForm" class="main-personmsg" style="width: 50%; margin: 0 auto;" action="{{ url controller='Member' action='Pass' }}" method="post">
+                    <div class="line"><label><span><strong>*</strong>原密码：</span>
+                        <input class="text" id="password" name="pwd" type="password" tabindex="1" value="" /></label>
+                    </div>
+                    <div class="line"><label><span><strong>*</strong>新密码： </span>
+                        <input class="text" id="np1" name="password" type="password" tabindex="1" value="" />
+                    </label>
+                    </div>
+                    <div class="line"><label><span><strong>*</strong>确认密码： </span>
+                        <input class="text" id="np2" name="confpass" type="password" tabindex="1" value="{{$memberInfo.date}}" /><div class="warning" style="display:none;"><p>两次密码不一致</p></div>
+                    </label>
+					</div>
+
+                    <input type="hidden" name="member_id" value="{{$memberInfo.member_id}}" />
+                    <div class="clear"><!--Clear Float--></div>
+                    <a id="button3" class="button" style="margin-left:130px; cursor:pointer;">确认修改</a>
+                </form>
+            </div>
+
+        </div>
+        <!--/*end gaincar个人中心*/-->
+
+        <!--/*help帮助中心*/-->
+        <div class="clear"></div>
+    
+        {{ include file='include/bottom.inc.html' }}
+
+    </div>
+
+    <script type="text/javascript" charset="utf-8">
+
+        var submit = false;
+
+        $("#np2").focusout(function() {
+            if($("#np1").val() != this.value) {
+                $("div.warning").show();
+                submit = false;
+            } else {
+                submit = true;
+                $("div.warning").hide();
+            }            
+        });
+
+        $("#button3").click(function() {
+            if(submit) {
+                $("#editForm").submit();
+            }
+        });
+        
+    </script>
+
+</body>
+</html>     
